@@ -5,3 +5,8 @@ DATA/
 .antigravity/   
 !.antigravity/rules.md
 !.antigravity/README.md
+
+# Python caches
+**/__pycache__/
+*.py[cod]
+*$py.class
