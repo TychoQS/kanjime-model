@@ -4,3 +4,4 @@ DATA/
 # Antigravity Configuration. Ignore default folder but not certain files declared here.
 .antigravity/   
 !.antigravity/rules.md
+!.antigravity/README.md
