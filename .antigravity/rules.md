@@ -85,3 +85,24 @@ The output must be a `README.md` (in SPANISH) following the reference structure:
 - Tabla de Contenidos (File | Type | Description)
 - Uso (Usage)
 - Dependencias (Dependencies)
+
+# 4. CONTRACT: AUTO-UPDATE DIRECTORY READMEs
+# ------------------------------------------------------------------
+# TRIGGER: User commits or adds files to a directory.
+
+## PRECONDITIONS
+1. A commit is being created that includes NEW or MODIFIED files in a directory.
+2. The directory has an existing `README.md` file.
+
+## POSTCONDITIONS
+1. **Detect affected directories**: Identify which directories contain the staged files.
+2. **Update README**: For each affected directory with a README.md:
+   - Add new files to the "Contenido" (Contents) table if they are new.
+   - Update descriptions if file purpose has changed.
+   - Maintain the existing structure and Spanish language.
+3. **Include in commit**: Stage the updated README.md files in the same commit.
+4. **Notify user**: Confirm which READMEs were auto-updated.
+
+## EXCEPTIONS
+- Do NOT update README if only `.gitignore`, `.gitattributes`, or hidden files (starting with `.`) are modified.
+- Do NOT update README for the root directory unless explicitly requested.
