@@ -39,6 +39,8 @@
    - `[FIX]`: For bug fixes.
    - `[FEAT]`: For new scripts/features.
    - `[DOCS]`: For documentation only.
+   - `[REF]`: For bibliographic references.
+
 
 ## POSTCONDITIONS (Strict Output Format)
 ```
@@ -64,6 +66,17 @@ Val Loss: <Value>
 Test Acc: <Value>% (Optional)
 Notes: <Observation in English>
 ```
+
+### Bibliographic References Format ([REF])
+```
+[REF] <Short description of the reference in English>
+
+File: <Filename or URL>
+Author: <Author Name(s)>
+Reference: <Full bibliographic reference or key info>
+Rationale: <Brief explanation of why this was added in English>
+```
+
 
 ## AUTOMATION HOOK (The "Auto-Tag" Rule)
 AFTER successfully creating a commit with the [MODEL] tag:
