@@ -40,6 +40,7 @@
    - `[FEAT]`: For new scripts/features.
    - `[DOCS]`: For documentation only.
    - `[REF]`: For bibliographic references.
+   - `[LOG]`: For updates to `training_log.csv`.
 
 
 ## POSTCONDITIONS (Strict Output Format)
@@ -119,3 +120,32 @@ The output must be a `README.md` (in SPANISH) following the reference structure:
 ## EXCEPTIONS
 - Do NOT update README if only `.gitignore`, `.gitattributes`, or hidden files (starting with `.`) are modified.
 - Do NOT update README for the root directory unless explicitly requested.
+- Use `[LOG]` tag strictly for `training_log.csv` updates.
+
+# 5. CONTRACT: HISTORIC PROTOCOL (LOG)
+# ------------------------------------------------------------------
+# TRIGGER: A commit with tag [MODEL] is executed.
+
+## MANDATORY WORKFLOW
+1.  **[MODEL] Commit**: Execute the commit with the `[MODEL]` tag and its corresponding Git Tag (e.g., `v0.1-resnet`).
+2.  **Update CSV**: Register the results in `training_log.csv` (root of the project).
+3.  **[LOG] Commit**: Add `training_log.csv` and execute a new commit with the `[LOG]` tag and a NEW Git Tag following the pattern `<experiment_id>-log`.
+
+## CSV STRUCTURE (snake_case columns)
+The file `training_log.csv` MUST maintain these columns strictly:
+- `experiment_id`: (Must match Git Tag, e.g., v0.1-resnet)
+- `timestamp`: (Format YYYY-MM-DD HH:MM)
+- `architecture`: (e.g., ResNet18, MobileNetV3)
+- `dataset_name`: (e.g., HSK-1, Custom-150)
+- `classes`: (e.g., 55)
+- `img_size`: (Input resolution)
+- `batch_size`: (Hyperparameter)
+- `learning_rate`: (Hyperparameter)
+- `augmentation`: (Brief description, e.g., "Elastic+Erode")
+- `epochs_run`: (Actual epochs executed)
+- `val_accuracy`: (e.g., 90%)
+- `val_loss`: (e.g., 5%)
+- `test_accuracy`: (e.g., 70%)
+- `train_loss_final`: (Final loss)
+- `model_size_mb`: (Weight of generated .pth)
+- `notes`: (Brief observations)
