@@ -15,3 +15,4 @@ Este proyecto implementa un pipeline completo de Machine Learning para clasifica
 | `DATA/` | Dataset ETL9G (no incluido en el repositorio por tamaño). |
 | `Noto_Sans_JP/` | Fuente tipográfica para generación de datos sintéticos. |
 | `.antigravity/` | Configuración y reglas del agente de IA. |
+| `training_log.csv` | Registro histórico de experimentos y modelos (Versionado). |
