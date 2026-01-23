@@ -4,15 +4,15 @@
 
 ---
 
-## INSTRUCCIONES CRÍTICAS DE COMPORTAMIENTO (META-RULES)
+## CRITICAL BEHAVIORAL INSTRUCTIONS (META-RULES)
 
-1.  **LÓGICA DE VERSIONADO INCREMENTAL**: Antes de generar el campo "ID" en un commit de [MODEL], debes listar las etiquetas existentes (`git tag -l`). Busca el patrón `<arquitectura>-model-vX`.
-    * Si no existen, X = 1.
-    * Si existen (ej: v1, v2), toma el número más alto y súmale 1 (ej: v3).
-    * Usa este ID calculado tanto para el texto del commit como para el comando `git tag` posterior.
-2.  **IDIOMA HÍBRIDO**:
-    * **Código y Commits**: SIEMPRE en INGLÉS.
-    * **Documentación (READMEs)**: SIEMPRE en ESPAÑOL.
+1.  **INCREMENTAL VERSIONING LOGIC**: Before generating the "ID" field in a [MODEL] commit, you must list the existing tags (`git tag -l`). Search for the pattern `<architecture>-model-vX`.
+    * If none exist, X = 1.
+    * If they exist (e.g., v1, v2), take the highest number and add 1 (e.g., v3).
+    * Use this calculated ID for both the commit text and the subsequent `git tag` command.
+2.  **HYBRID LANGUAGE**:
+    * **Code and Commits**: ALWAYS in ENGLISH.
+    * **Documentation (READMEs)**: ALWAYS in SPANISH.
 
 ---
 
