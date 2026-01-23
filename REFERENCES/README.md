@@ -7,6 +7,7 @@ Este directorio contiene documentos, artículos, enlaces y cualquier material de
 | Archivo | Tipo | Descripción |
 | :--- | :--- | :--- |
 | `README.md` | Documentación | Guía del directorio de referencias. |
+| `High_performance_offline_handwritten_Chinese_character_recognition_using_GoogLeNet_and_directional_feature_maps.pdf` | PDF | Artículo sobre reconocimiento de caracteres chinos con CNN y mapas de rasgos direccionales. |
 
 ## Uso
 Para añadir una nueva referencia a este repositorio, siga estas pautas:
