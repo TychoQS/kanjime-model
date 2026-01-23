@@ -12,10 +12,11 @@ El cuaderno se estructura en las siguientes secciones lógicas:
 1.  **Configuración y Constantes**:
     * Se establecen las rutas a los directorios de datos y salida.
     * Se definen los parámetros globales que gobernarán el entrenamiento (hiperparámetros).
+    * **Nuevo**: Se incluye `MAX_CLASSES_LIMIT` para permitir el entrenamiento con un número reducido de clases y se establece una semilla fija para reproducibilidad.
     * Se configura el dispositivo de cómputo (GPU/CPU).
 
 2.  **Preparación de Datos y Preprocesamiento**:
-    * Implementación de una clase para la gestión del dataset, encargada de leer las imágenes y sus etiquetas desde archivos CSV y carpetas descomprimidas.
+    * Implementación de una clase para la gestión del dataset (`ETL9GDataset`), encargada de leer las imágenes y sus etiquetas, ahora con soporte para filtrar el número máximo de clases a utilizar.
     * Definición de **transformaciones y aumento de datos (Data Augmentation)** para el conjunto de entrenamiento, incluyendo:
         * Redimensionado de imágenes.
         * Conversión a escala de grises (replicando canales para compatibilidad con la red).
