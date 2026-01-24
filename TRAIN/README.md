@@ -3,7 +3,7 @@
 Este documento describe el flujo de trabajo, la arquitectura y los resultados del experimento de entrenamiento registrado en el cuaderno adjunto.
 
 ## Descripción General
-El cuaderno implementa un ciclo completo de aprendizaje profundo (Deep Learning) para la clasificación de caracteres manuscritos (específicamente los Kanji correspondientes al dataset ETL9G). El flujo abarca desde la carga de datos hasta la inferencia con imágenes externas, pasando por un preprocesamiento robusto y el entrenamiento de una red neuronal convolucional.
+El cuaderno `kanji_classificator_model_training.ipynb` (antes `train.ipynb`) implementa un ciclo completo de aprendizaje profundo (Deep Learning) para la clasificación de caracteres manuscritos. El flujo ha sido actualizado para utilizar el dataset **ETL9B** (binarizado) y abarca desde la carga de datos hasta la inferencia con imágenes externas, incorporando umbralizado Otsu.
 
 ## Etapas del Cuaderno
 
@@ -12,12 +12,14 @@ El cuaderno se estructura en las siguientes secciones lógicas:
 1.  **Configuración y Constantes**:
     * Se establecen las rutas a los directorios de datos y salida.
     * Se definen los parámetros globales que gobernarán el entrenamiento (hiperparámetros).
-    * **Nuevo**: Se incluye `MAX_CLASSES_LIMIT` para permitir el entrenamiento con un número reducido de clases y se establece una semilla fija para reproducibilidad.
+    * **Renombrado**: El cuaderno principal ahora es `kanji_classificator_model_training.ipynb`.
+    * Se incluye `MAX_CLASSES_LIMIT` para permitir el entrenamiento con un número reducido de clases y se establece una semilla fija para reproducibilidad.
     * **HSK-1**: Se incluye el cuaderno `hsk1_with_my_architecture.ipynb` para pruebas con datasets externos.
     * Se configura el dispositivo de cómputo (GPU/CPU).
 
 2.  **Preparación de Datos y Preprocesamiento**:
-    * Implementación de una clase para la gestión del dataset (`ETL9GDataset`), encargada de leer las imágenes y sus etiquetas, ahora con soporte para filtrar el número máximo de clases a utilizar.
+    * Soporte para el dataset **ETL9B** (binarizado), reemplazando al ETL9G.
+    * Implementación de una clase para la gestión del dataset, encargada de leer las imágenes y sus etiquetas, con soporte para filtrar el número máximo de clases a utilizar.
     * Definición de **transformaciones y aumento de datos (Data Augmentation)** para el conjunto de entrenamiento, incluyendo:
         * Redimensionado de imágenes.
         * Conversión a escala de grises (replicando canales para compatibilidad con la red).
@@ -41,7 +43,8 @@ El cuaderno se estructura en las siguientes secciones lógicas:
 
 6.  **Evaluación e Inferencia**:
     * Medición del rendimiento final utilizando el subconjunto de Test (no visto durante el entrenamiento).
-    * Pruebas de predicción con imágenes externas situadas en una carpeta específica para verificar el funcionamiento en escenarios reales.
+    * Pruebas de predicción con imágenes externas situadas en una carpeta específica.
+    * **Preprocesamiento**: Se incorpora umbralizado **Otsu** para binarizar las entradas de inferencia, asegurando compatibilidad con el entrenamiento sobre ETL9B.
 
 ## Arquitectura de la Red Neuronal
 
