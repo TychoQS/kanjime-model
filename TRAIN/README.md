@@ -13,6 +13,7 @@ El cuaderno se estructura en las siguientes secciones lógicas:
     * Se establecen las rutas a los directorios de datos y salida.
     * Se definen los parámetros globales que gobernarán el entrenamiento (hiperparámetros).
     * **Nuevo**: Se incluye `MAX_CLASSES_LIMIT` para permitir el entrenamiento con un número reducido de clases y se establece una semilla fija para reproducibilidad.
+    * **HSK-1**: Se incluye el cuaderno `hsk1_with_my_architecture.ipynb` para pruebas con datasets externos.
     * Se configura el dispositivo de cómputo (GPU/CPU).
 
 2.  **Preparación de Datos y Preprocesamiento**:
@@ -69,3 +70,12 @@ En la ejecución registrada en este cuaderno, el modelo mostró una convergencia
 * **Precisión en Validación (Final)**: ~99.5%
 * **Pérdida en Validación (Final)**: ~0.018
 * **Observaciones**: El modelo alcanza una precisión muy alta en pocas épocas. Sería interesante implementar un "Early Stopping".
+
+### Experimento HSK-1 (HSK1-resnet18-model-v1)
+
+En este experimento se utilizó la arquitectura desarrollada para Kanji (ResNet18 adaptada) con un dataset de caracteres chinos HSK-1.
+
+*   **Precisión en Validación**: 98.50%
+*   **Precisión en Test**: 97.82%
+*   **Pérdida en Validación**: 0.0645
+*   **Observaciones**: Los resultados confirman que la arquitectura es altamente efectiva también para otros datasets de caracteres similares, manteniendo una precisión superior al 97%.
