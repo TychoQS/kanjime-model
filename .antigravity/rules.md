@@ -41,6 +41,8 @@
    - `[DOCS]`: For documentation only.
    - `[REF]`: For bibliographic references.
    - `[LOG]`: For updates to `training_log.csv`.
+   - `[MODIFY]`: For changes not covered by the other tags.
+
 
 
 ## POSTCONDITIONS (Strict Output Format)
