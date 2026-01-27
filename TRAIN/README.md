@@ -63,7 +63,7 @@ A continuación se listan los hiperparámetros utilizados en esta versión del e
 
 | Parámetro | Valor | Descripción |
 | :--- | :--- | :--- |
-| **Learning Rate** | 0.0002 | Tasa de aprendizaje inicial para el optimizador. |
+| **Learning Rate** | 0.001 | Tasa de aprendizaje inicial para el optimizador. |
 | **Batch Size** | 128 | Número de muestras procesadas antes de actualizar el modelo. |
 | **Epochs** | 30 | Número total de pasadas completas por el dataset de entrenamiento. |
 | **Image Size** | 128 x 128 | Resolución a la que se redimensionan las imágenes de entrada. |
@@ -74,15 +74,7 @@ A continuación se listan los hiperparámetros utilizados en esta versión del e
 
 En la ejecución registrada en este cuaderno, el modelo mostró una convergencia estable y rápida gracias al uso de Transfer Learning.
 
-* **Precisión en Validación (Mejor/Guardado)**: 97.71%
-* **Pérdida en Validación (Mejor/Guardado)**: 0.0751
+* **Precisión en Validación (Mejor)**: 97.74%
+* **Pérdida en Validación (Mejor)**: 0.0767
+* **Precisión en Test**: 94.36%
 * **Observaciones**: El modelo muestra una buena generalización con una precisión superior al 97%. Se redujo la tasa de aprendizaje para un ajuste fino y el mejor modelo se obtuvo en la época 9.
-
-### Experimento HSK-1 (HSK1-resnet18-model-v1)
-
-En este experimento se utilizó la arquitectura desarrollada para Kanji (ResNet18 adaptada) con un dataset de caracteres chinos HSK-1.
-
-*   **Precisión en Validación**: 98.50%
-*   **Precisión en Test**: 97.01%
-*   **Pérdida en Validación**: 0.0645
-*   **Observaciones**: Los resultados confirman que la arquitectura es altamente efectiva también para otros datasets de caracteres similares, manteniendo una precisión superior al 97%.
