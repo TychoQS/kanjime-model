@@ -50,6 +50,12 @@ El cuaderno se estructura en las siguientes secciones lógicas:
         * Nombre de archivo como etiqueta (e.g., `あ.png`).
         * Carpeta contenedora como etiqueta (e.g., `あ/001.png`).
 
+7.  **Optimización de Hiperparámetros (Optuna)**:
+    * Se ha integrado **Optuna** para la búsqueda automática de los mejores hiperparámetros.
+    * Definición de una función objetivo (`objective`) que entrena el modelo con diferentes configuraciones sugeridas por el "trial".
+    * Optimización de variables como: `learning_rate`, `batch_size`, `optimizer` (Adam/SGD), etc.
+    * Visualización de la importancia de los hiperparámetros y el historial de optimización.
+
 ## Arquitectura de la Red Neuronal
 
 * **Modelo Base**: ResNet18 (Red Residual de 18 capas).
