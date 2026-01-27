@@ -16,6 +16,7 @@ El cuaderno se estructura en las siguientes secciones lógicas:
     * Se incluye `MAX_CLASSES_LIMIT` para permitir el entrenamiento con un número reducido de clases y se establece una semilla fija para reproducibilidad.
     * **HSK-1**: Se incluye el cuaderno `hsk1_with_my_architecture.ipynb` para pruebas con datasets externos.
     * Se configura el dispositivo de cómputo (GPU/CPU).
+    * **CASIA**: Se usa el dataset CASIA para pruebas con datasets externos en el modelo de kanjis.
 
 2.  **Preparación de Datos y Preprocesamiento**:
     * Soporte para el dataset **ETL9B** (binarizado), reemplazando al ETL9G.
@@ -45,6 +46,9 @@ El cuaderno se estructura en las siguientes secciones lógicas:
     * Medición del rendimiento final utilizando el subconjunto de Test (no visto durante el entrenamiento).
     * Pruebas de predicción con imágenes externas situadas en una carpeta específica.
     * **Preprocesamiento**: Se incorpora umbralizado **Otsu** para binarizar las entradas de inferencia, asegurando compatibilidad con el entrenamiento sobre ETL9B.
+    * **Mejoras en Inferencia**: La función `predict_and_evaluate` ahora soporta dos tipos de formatos para la carga de imágenes:
+        * Nombre de archivo como etiqueta (e.g., `あ.png`).
+        * Carpeta contenedora como etiqueta (e.g., `あ/001.png`).
 
 ## Arquitectura de la Red Neuronal
 
@@ -59,7 +63,7 @@ A continuación se listan los hiperparámetros utilizados en esta versión del e
 
 | Parámetro | Valor | Descripción |
 | :--- | :--- | :--- |
-| **Learning Rate** | 0.002 | Tasa de aprendizaje inicial para el optimizador. |
+| **Learning Rate** | 0.0002 | Tasa de aprendizaje inicial para el optimizador. |
 | **Batch Size** | 128 | Número de muestras procesadas antes de actualizar el modelo. |
 | **Epochs** | 30 | Número total de pasadas completas por el dataset de entrenamiento. |
 | **Image Size** | 128 x 128 | Resolución a la que se redimensionan las imágenes de entrada. |
@@ -70,15 +74,15 @@ A continuación se listan los hiperparámetros utilizados en esta versión del e
 
 En la ejecución registrada en este cuaderno, el modelo mostró una convergencia estable y rápida gracias al uso de Transfer Learning.
 
-* **Precisión en Validación (Final)**: ~99.5%
-* **Pérdida en Validación (Final)**: ~0.018
-* **Observaciones**: El modelo alcanza una precisión muy alta en pocas épocas. Sería interesante implementar un "Early Stopping".
+* **Precisión en Validación (Mejor/Guardado)**: 97.71%
+* **Pérdida en Validación (Mejor/Guardado)**: 0.0751
+* **Observaciones**: El modelo muestra una buena generalización con una precisión superior al 97%. Se redujo la tasa de aprendizaje para un ajuste fino y el mejor modelo se obtuvo en la época 9.
 
 ### Experimento HSK-1 (HSK1-resnet18-model-v1)
 
 En este experimento se utilizó la arquitectura desarrollada para Kanji (ResNet18 adaptada) con un dataset de caracteres chinos HSK-1.
 
 *   **Precisión en Validación**: 98.50%
-*   **Precisión en Test**: 97.82%
+*   **Precisión en Test**: 97.01%
 *   **Pérdida en Validación**: 0.0645
 *   **Observaciones**: Los resultados confirman que la arquitectura es altamente efectiva también para otros datasets de caracteres similares, manteniendo una precisión superior al 97%.
