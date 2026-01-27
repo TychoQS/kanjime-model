@@ -74,8 +74,8 @@ A continuación se listan los hiperparámetros utilizados en esta versión del e
 
 En la ejecución registrada en este cuaderno, el modelo mostró una convergencia estable y rápida gracias al uso de Transfer Learning.
 
-* **Precisión en Validación (Mejor/Guardado)**: 97.71%
-* **Pérdida en Validación (Mejor/Guardado)**: 0.0751
+* **Precisión en Validación (Mejor)**: 97.71%
+* **Pérdida en Validación (Mejor)**: 0.0751
 * **Observaciones**: El modelo muestra una buena generalización con una precisión superior al 97%. Se redujo la tasa de aprendizaje para un ajuste fino y el mejor modelo se obtuvo en la época 9.
 
 ### Experimento HSK-1 (HSK1-resnet18-model-v1)
