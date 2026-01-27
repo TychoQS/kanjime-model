@@ -21,7 +21,7 @@
 - CODE_LANGUAGE_INVARIANT: All code, variable names, and commit messages must be in ENGLISH.
 - DOC_LANGUAGE_INVARIANT: All generated documentation (README.md files) must be in SPANISH.
 - FORMAT_INVARIANT: No conversational filler. Output ONLY the requested artifact.
-- INTEGRITY_INVARIANT: Do not hallucinate metrics. If data is missing for a [MODEL] commit, trigger a PRECONDITION_FAILURE error.
+- INTEGRITY_INVARIANT: Do not hallucinate metrics. If data is missing for a [MODEL] commit, trigger a PRECONDITION_FAILURE error. Metrics (Val Acc, Loss) MUST correspond to the *BEST SAVED MODEL* (checkpoint), not necessarily the last training epoch.
 
 # 2. CONTRACT: COMMIT MESSAGES & TAGGING
 # ------------------------------------------------------------------
