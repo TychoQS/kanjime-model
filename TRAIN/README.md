@@ -5,6 +5,18 @@ Este documento describe el flujo de trabajo, la arquitectura y los resultados de
 ## Descripción General
 El cuaderno `kanji_classificator_model_training.ipynb` (antes `train.ipynb`) implementa un ciclo completo de aprendizaje profundo (Deep Learning) para la clasificación de caracteres manuscritos. El flujo ha sido actualizado para utilizar el dataset **ETL9B** (binarizado) y abarca desde la carga de datos hasta la inferencia con imágenes externas, incorporando umbralizado Otsu.
 
+## Tabla de Contenidos
+
+| Archivo / Directorio | Tipo | Descripción |
+| :--- | :--- | :--- |
+| `kanji_classificator_model_training.ipynb` | Cuaderno | Pipeline principal de entrenamiento y evaluación. |
+| `hsk1_with_my_architecture.ipynb` | Cuaderno | Pruebas de arquitectura con el dataset HSK. |
+| `Training_Output/` | Carpeta | Resultados del entrenamiento (modelo, historia, clases). |
+| `HSK_Training_Output/` | Carpeta | Resultados del entrenamiento HSK. |
+| `mejor_modelo_kanjiX.pth` | Modelo | Punto de control del modelo entrenado. |
+| `README.md` | Doc | Esta documentación. |
+
+
 ## Etapas del Cuaderno
 
 El cuaderno se estructura en las siguientes secciones lógicas:
@@ -50,6 +62,7 @@ El cuaderno se estructura en las siguientes secciones lógicas:
     * **Mejoras en Inferencia**: La función `predict_and_evaluate` ahora soporta dos tipos de formatos para la carga de imágenes:
         * Nombre de archivo como etiqueta (e.g., `あ.png`).
         * Carpeta contenedora como etiqueta (e.g., `あ/001.png`).
+    * **Monte Carlo Dropout**: Se ha implementado la capacidad de aplicar Monte Carlo Dropout durante la inferencia para estimar la incertidumbre del modelo. Esto permite realizar múltiples pasadas con el dropout activado y calcular la media de las probabilidades y la desviación estándar (incertidumbre).
 
 7.  **Optimización de Hiperparámetros (Optuna)**:
     * Se ha integrado **Optuna** para la búsqueda automática de los mejores hiperparámetros.
