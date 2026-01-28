@@ -80,7 +80,7 @@ A continuación se listan los hiperparámetros utilizados en esta versión del e
 
 En la ejecución registrada en este cuaderno, el modelo mostró una convergencia estable y rápida gracias al uso de Transfer Learning.
 
-* **Precisión en Validación (Mejor)**: 97.74%
-* **Pérdida en Validación (Mejor)**: 0.0767
-* **Precisión en Test**: 94.36%
-* **Observaciones**: El modelo muestra una buena generalización con una precisión superior al 97%. Se redujo la tasa de aprendizaje para un ajuste fino y el mejor modelo se obtuvo en la época 9.
+* **Precisión en Validación (Mejor)**: 91.14%
+* **Pérdida en Validación (Mejor)**: 0.3357
+* **Precisión en Test**: 87.16%
+* **Observaciones**: Se integró Optuna para la optimización de hiperparámetros. Aunque la precisión es ligeramente inferior al resto de versiones de esta arquitectura, se ha automatizado la búsqueda de mejores parámetros para las futuras arquitecturas.
