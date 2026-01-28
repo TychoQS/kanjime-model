@@ -11,6 +11,7 @@ El cuaderno `kanji_classificator_model_training.ipynb` (antes `train.ipynb`) imp
 | :--- | :--- | :--- |
 | `kanji_classificator_model_training.ipynb` | Cuaderno | Pipeline principal de entrenamiento y evaluación. |
 | `hsk1_with_my_architecture.ipynb` | Cuaderno | Pruebas de arquitectura con el dataset HSK. |
+| `modules/` | Carpeta | Módulos Python refactorizados del pipeline de entrenamiento. |
 | `Training_Output/` | Carpeta | Resultados del entrenamiento (modelo, historia, clases). |
 | `Training_Output/last_checkpoint.pth` | Archivo | Estado del último entrenamiento para reanudación. |
 | `HSK_Training_Output/` | Carpeta | Resultados del entrenamiento HSK. |
@@ -100,3 +101,21 @@ En la ejecución registrada en este cuaderno, el modelo mostró una convergencia
 * **Pérdida en Validación (Mejor)**: 0.3357
 * **Precisión en Test**: 87.16%
 * **Observaciones**: Los resultados actuales en el README pertenecen a la arquitectura ResNet18. El código ha sido actualizado a MobileNetV3 y ahora cuenta con sistema de checkpoints para permitir retomar entrenamientos pausados.
+
+## Modularización (Refactorización)
+
+El código del cuaderno principal ha sido **refactorizado** para separar las responsabilidades en módulos independientes ubicados en la carpeta `modules/`. Esta estructura permite:
+
+- **Mejor organización**: Cada módulo tiene una responsabilidad específica.
+- **Reutilización**: Los componentes pueden importarse en otros experimentos o cuadernos.
+- **Mantenibilidad**: Cambios en una funcionalidad no afectan al resto del código.
+- **Testing**: Facilita la creación de pruebas unitarias para cada componente.
+
+Los módulos principales son:
+- `dataset.py`: Gestión del dataset ETL9
+- `train_model.py`: Bucle de entrenamiento con checkpoints
+- `evaluation.py`: Inferencia y evaluación con Monte Carlo Dropout
+- `optuna.py`: Optimización de hiperparámetros
+- `transforms.py`: Transformaciones de Data Augmentation
+
+Para más detalles, consultar el archivo `modules/README.md`.
