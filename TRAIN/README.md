@@ -12,8 +12,8 @@ El cuaderno `kanji_classificator_model_training.ipynb` (antes `train.ipynb`) imp
 | `kanji_classificator_model_training.ipynb` | Cuaderno | Pipeline principal de entrenamiento y evaluación. |
 | `hsk1_with_my_architecture.ipynb` | Cuaderno | Pruebas de arquitectura con el dataset HSK. |
 | `Training_Output/` | Carpeta | Resultados del entrenamiento (modelo, historia, clases). |
+| `Training_Output/last_checkpoint.pth` | Archivo | Estado del último entrenamiento para reanudación. |
 | `HSK_Training_Output/` | Carpeta | Resultados del entrenamiento HSK. |
-| `mejor_modelo_kanjiX.pth` | Modelo | Punto de control del modelo entrenado. |
 | `README.md` | Doc | Esta documentación. |
 
 
@@ -48,8 +48,9 @@ El cuaderno se estructura en las siguientes secciones lógicas:
 
 4.  **Bucle de Entrenamiento**:
     * Ejecución del entrenamiento durante un número definido de épocas.
+    * **Sistema de Checkpoints**: Guardado automático del estado del entrenamiento (`last_checkpoint.pth`) en cada época para permitir la reanudación ante interrupciones.
     * Cálculo de la pérdida y la precisión tanto en entrenamiento como en validación.
-    * Guardado automático del **mejor modelo** basado en la precisión de validación.
+    * Guardado automático del **mejor modelo** basado en la precisión de validación (`best_kanji_model.pth`).
     * Almacenamiento del historial de métricas y el mapeo de clases.
 
 5.  **Análisis de Resultados**:
@@ -73,7 +74,7 @@ El cuaderno se estructura en las siguientes secciones lógicas:
 
 ## Arquitectura de la Red Neuronal
 
-* **Modelo Base**: ResNet18 (Red Residual de 18 capas).
+* **Modelo Base**: MobileNetV3 Large (Optimizado para eficiencia).
 * **Pesos**: Pre-entrenados (Transfer Learning).
 * **Adaptación**: Se sustituye la capa de clasificación original por una capa lineal que proyecta las características extraídas al número de clases Kanji del dataset (aprox. 2965 clases).
 * **Entrada**: Imágenes redimensionadas a 128x128 píxeles. Aunque son en escala de grises, se tratan como 3 canales para cumplir con los requisitos de la red pre-entrenada.
@@ -98,4 +99,4 @@ En la ejecución registrada en este cuaderno, el modelo mostró una convergencia
 * **Precisión en Validación (Mejor)**: 91.14%
 * **Pérdida en Validación (Mejor)**: 0.3357
 * **Precisión en Test**: 87.16%
-* **Observaciones**: Se integró Optuna para la optimización de hiperparámetros. Aunque la precisión es ligeramente inferior al resto de versiones de esta arquitectura, se ha automatizado la búsqueda de mejores parámetros para las futuras arquitecturas.
+* **Observaciones**: Los resultados actuales en el README pertenecen a la arquitectura ResNet18. El código ha sido actualizado a MobileNetV3 y ahora cuenta con sistema de checkpoints para permitir retomar entrenamientos pausados.
