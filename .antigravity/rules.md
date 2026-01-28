@@ -14,7 +14,7 @@
     * **Code and Commits**: ALWAYS in ENGLISH.
     * **Documentation (READMEs)**: ALWAYS in SPANISH.
 3.  **DATA SOURCE HIERARCHY**: When extracting metrics (Accuracy, Loss, Hyperparameters, etc.) for commits, logs, READMEs or any sort of report:
-    * **PRIORITY 1 (TRUTH)**: Notebook Output Cells. Always verify the actual printed values in the executed notebook.
+    * **PRIORITY 1 (TRUTH)**: Notebook Output Cells. Always verify the actual printed values in the executed notebook. Take into consideration that some hyperparameters are defined in the first cell but then optimized with optuna.
     * **PRIORITY 2 (FALLBACK)**: Generated artifacts (e.g., `training_history.json`, `classes.json`) ONLY if the notebook output is cleared or ambiguous.
     * **NEVER**: Rely solely on file names or previous commit messages.
 
