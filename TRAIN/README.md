@@ -28,6 +28,7 @@ El cuaderno se estructura en las siguientes secciones lógicas:
         * Ajustes de color y desenfoque.
         * Inversión aleatoria de colores y adición de ruido gaussiano.
     * División del dataset en subconjuntos de **Entrenamiento (80%)**, **Validación (10%)** y **Test (10%)**.
+    * **Verificación de Equilibrio**: Se incluye una celda que utiliza `Counter` para mostrar la frecuencia de cada clase y verificar si el dataset está equilibrado.
 
 3.  **Definición de la Arquitectura**:
     * Carga de un modelo base pre-entrenado.
@@ -52,6 +53,7 @@ El cuaderno se estructura en las siguientes secciones lógicas:
 
 7.  **Optimización de Hiperparámetros (Optuna)**:
     * Se ha integrado **Optuna** para la búsqueda automática de los mejores hiperparámetros.
+    * **Optimización de Velocidad**: Para acelerar la etapa de Optuna, se utiliza únicamente un **2%** de las clases del dataset original.
     * Definición de una función objetivo (`objective`) que entrena el modelo con diferentes configuraciones sugeridas por el "trial".
     * Optimización de variables como: `learning_rate`, `batch_size`, `optimizer` (Adam/SGD), etc.
     * Visualización de la importancia de los hiperparámetros y el historial de optimización.
