@@ -1,3 +1,7 @@
+import torch.optim as optim
+from torch.optim.lr_scheduler import ReduceLROnPlateau
+import torch.nn as nn
+
 class EarlyStopping:
     """Early Stopping implementation for training"""
     def __init__(self, patience=7, verbose=True):
@@ -32,7 +36,9 @@ def setup_training_tools(model, lr, weight_decay, factor=0.5, patience=2):
     """
     Centralize the Optimizer, Scheduler and Criterion instantiation in a single function.
     """
-    optimizer = optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
+
+    trainable_params = filter(lambda p: p.requires_grad, model.parameters()) # Filter out non-trainable parameters (by default all parameters are trainable)
+    optimizer = optim.AdamW(trainable_params, lr=lr, weight_decay=weight_decay)
     scheduler = ReduceLROnPlateau(
         optimizer, 
         mode='max',  # Max val_accuracy

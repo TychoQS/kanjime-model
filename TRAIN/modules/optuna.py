@@ -3,13 +3,8 @@ import torch.nn as nn
 import torch.optim as optim
 import optuna
 import gc
-
-import torch
-import torch.nn as nn
-import torch.optim as optim
 from torch.optim.lr_scheduler import ReduceLROnPlateau
-import optuna
-import gc
+from modules.train_utils import setup_training_tools
 
 def objective(trial, get_dataloaders_fn, build_model_fn, device, optuna_epochs):
     lr = trial.suggest_float("lr", 5e-4, 5e-3, log=True)
@@ -19,9 +14,7 @@ def objective(trial, get_dataloaders_fn, build_model_fn, device, optuna_epochs):
     t_loader, v_loader, n_clases = get_dataloaders_fn(batch_size)
     trial_model = build_model_fn(n_clases)
     
-    optimizer = optim.AdamW(trial_model.parameters(), lr=lr, weight_decay=weight_decay)
-    criterion = nn.CrossEntropyLoss()
-    scheduler = ReduceLROnPlateau(optimizer, mode='max', factor=0.5, patience=2, min_lr=1e-6)
+    optimizer, scheduler, criterion = setup_training_tools(trial_model, lr, weight_decay)
     
     best_val_acc = 0.0
     
