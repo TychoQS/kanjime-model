@@ -1,8 +1,7 @@
 class EarlyStopping:
     """Early Stopping implementation for training"""
-    def __init__(self, patience=7, min_delta=0.001, verbose=True):
+    def __init__(self, patience=7, verbose=True):
         self.patience = patience
-        self.min_delta = min_delta
         self.counter = 0
         self.best_score = None
         self.verbose = verbose
@@ -14,7 +13,7 @@ class EarlyStopping:
             self.best_score = score
             if self.verbose:
                 print(f"  [Early Stopping] Baseline set: {score:.4f}")
-        elif score < self.best_score + self.min_delta:
+        elif score < self.best_score:
             self.counter += 1
             if self.verbose:
                 print(f"  [Early Stopping] No improvement ({self.counter}/{self.patience})")
@@ -28,3 +27,19 @@ class EarlyStopping:
             self.best_score = score
             self.counter = 0
         return False
+
+def setup_training_tools(model, lr, weight_decay, factor=0.5, patience=2):
+    """
+    Centralize the Optimizer, Scheduler and Criterion instantiation in a single function.
+    """
+    optimizer = optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
+    scheduler = ReduceLROnPlateau(
+        optimizer, 
+        mode='max',  # Max val_accuracy
+        factor=factor, # Decrease LR to factor of it's value
+        patience=patience, # Wait for patience epochs before reducing LR
+        min_lr=1e-6 # Minimum LR value
+    )
+    criterion = nn.CrossEntropyLoss()
+    
+    return optimizer, scheduler, criterion

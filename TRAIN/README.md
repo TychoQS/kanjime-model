@@ -86,21 +86,24 @@ A continuación se listan los hiperparámetros utilizados en esta versión del e
 
 | Parámetro | Valor | Descripción |
 | :--- | :--- | :--- |
-| **Learning Rate** | 0.001 | Tasa de aprendizaje inicial para el optimizador. |
-| **Batch Size** | 128 | Número de muestras procesadas antes de actualizar el modelo. |
-| **Epochs** | 30 | Número total de pasadas completas por el dataset de entrenamiento. |
-| **Image Size** | 128 x 128 | Resolución a la que se redimensionan las imágenes de entrada. |
-| **Optimizador** | Adam | Algoritmo de optimización utilizado. |
-| **Función de Pérdida** | CrossEntropyLoss | Función de coste para clasificación multiclase. |
+| **Learning Rate** | 0.0025608 | Tasa de aprendizaje sugerida por Optuna. |
+| **Batch Size** | 96 | Tamaño de lote sugerido por Optuna. |
+| **Weight Decay** | 2.0679e-05 | Regularización L2 sugerida por Optuna. |
+| **Epochs** | 30 | Límite máximo de épocas (Early Stopping aplicado). |
+| **Image Size** | 128 x 128 | Resolución de entrada. |
+| **Optimizador** | AdamW | Variante avanzada del optimizador Adam. |
+| **Early Stopping** | Paciencia 5 | Detención si la precisión de validación no mejora. |
 
 ## Resultados Generales
 
-En la ejecución registrada en este cuaderno, el modelo mostró una convergencia estable y rápida gracias al uso de Transfer Learning.
+En la ejecución registrada en este cuaderno utilizando la arquitectura **MobileNetV3 Large**, se obtuvieron los siguientes resultados:
 
-* **Precisión en Validación (Mejor)**: 91.14%
-* **Pérdida en Validación (Mejor)**: 0.3357
-* **Precisión en Test**: 87.16%
-* **Observaciones**: Los resultados actuales en el README pertenecen a la arquitectura ResNet18. El código ha sido actualizado a MobileNetV3 y ahora cuenta con sistema de checkpoints para permitir retomar entrenamientos pausados.
+* **ID del Experimento**: `mobilenet_v3-model-v1`
+* **Precisión en Validación (Mejor)**: 96.75% (Época 7)
+* **Pérdida en Validación (Mejor)**: 0.1485
+* **Precisión en Entrenamiento (Final)**: 97.65%
+* **Precisión en Test (Final)**: 90.45%
+* **Observaciones**: El modelo alcanzó su mejor desempeño rápidamente. Se eliminó el factor `delta` del Early Stopping para asegurar que cualquier mejora, por pequeña que sea, se considere progreso.
 
 ## Modularización (Refactorización)
 
