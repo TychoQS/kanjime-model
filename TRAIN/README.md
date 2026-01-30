@@ -86,9 +86,9 @@ A continuación se listan los hiperparámetros utilizados en esta versión del e
 
 | Parámetro | Valor | Descripción |
 | :--- | :--- | :--- |
-| **Learning Rate** | 0.0025608 | Tasa de aprendizaje sugerida por Optuna. |
-| **Batch Size** | 96 | Tamaño de lote sugerido por Optuna. |
-| **Weight Decay** | 2.0679e-05 | Regularización L2 sugerida por Optuna. |
+| **Learning Rate** | 0.0033408 | Tasa de aprendizaje sugerida por Optuna. |
+| **Batch Size** | 64 | Tamaño de lote sugerido por Optuna. |
+| **Weight Decay** | 2.3089e-04 | Regularización L2 sugerida por Optuna. |
 | **Epochs** | 30 | Límite máximo de épocas (Early Stopping aplicado). |
 | **Image Size** | 128 x 128 | Resolución de entrada. |
 | **Optimizador** | AdamW | Variante avanzada del optimizador Adam. |
@@ -98,12 +98,12 @@ A continuación se listan los hiperparámetros utilizados en esta versión del e
 
 En la ejecución registrada en este cuaderno utilizando la arquitectura **MobileNetV3 Large**, se obtuvieron los siguientes resultados:
 
-* **ID del Experimento**: `mobilenet_v3-model-v1`
-* **Precisión en Validación (Mejor)**: 96.75% (Época 7)
-* **Pérdida en Validación (Mejor)**: 0.1485
-* **Precisión en Entrenamiento (Final)**: 97.65%
-* **Precisión en Test (Final)**: 90.45%
-* **Observaciones**: El modelo alcanzó su mejor desempeño rápidamente. Se eliminó el factor `delta` del Early Stopping para asegurar que cualquier mejora, por pequeña que sea, se considere progreso.
+* **ID del Experimento**: `mobilenet_v3-model-v2`
+* **Precisión en Validación (Mejor)**: 24.84% (Época 18)
+* **Pérdida en Validación (Mejor)**: 3.3931
+* **Precisión en Entrenamiento (Final)**: 45.37% (Época 23)
+* **Precisión en Test (Final)**: 22.16%
+* **Observaciones**: Se observó una caída significativa en la precisión con respecto a la versión anterior, a pesar de utilizar los mejores parámetros sugeridos por Optuna (`lr: 0.00334`, `batch_size: 64`). El entrenamiento se detuvo por Early Stopping en la época 23. Se mantiene la eliminación del factor `delta` en el Early Stopping. En este entrenamiento se congelaron todas las capas menos la última.
 
 ## Modularización (Refactorización)
 
