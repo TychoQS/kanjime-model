@@ -86,10 +86,10 @@ A continuación se listan los hiperparámetros utilizados en esta versión del e
 
 | Parámetro | Valor | Descripción |
 | :--- | :--- | :--- |
-| **Learning Rate** | 0.0020945 | Tasa de aprendizaje óptima sugerida por Optuna. |
-| **Batch Size** | 96 | Tamaño de lote óptimo sugerido por Optuna. |
-| **Weight Decay** | 8.5853e-04 | Regularización L2 sugerida por Optuna. |
-| **Epochs** | 19 | Épocas ejecutadas (Early Stopping aplicado con paciencia 10). |
+| **Learning Rate** | 0.0006933 | Tasa de aprendizaje óptima sugerida por Optuna. |
+| **Batch Size** | 64 | Tamaño de lote óptimo sugerido por Optuna. |
+| **Weight Decay** | 2.4183e-05 | Regularización L2 sugerida por Optuna. |
+| **Epochs** | 50 | Épocas ejecutadas (Entrenamiento extendido). |
 | **Image Size** | 128 x 128 | Resolución de entrada. |
 | **Optimizador** | AdamW | Variante avanzada del optimizador Adam con Weight Decay. |
 | **Arquitectura** | MobileNetV3 + FastViT | Híbrido con bloques de atención de FastViT. |
@@ -98,12 +98,12 @@ A continuación se listan los hiperparámetros utilizados en esta versión del e
 
 En la ejecución registrada en este cuaderno utilizando la arquitectura **MobileNetV3 Large**, se obtuvieron los siguientes resultados:
 
-* **ID del Experimento**: `mobilenet_v3_fastvit-model-v1`
-* **Precisión en Validación (Mejor)**: 94.13% (Época 9)
-* **Pérdida en Validación (Mejor)**: 0.2332
-* **Precisión en Entrenamiento (Final)**: 99.03% (Época 19)
-* **Precisión en Test (Final)**: 93.07%
-* **Observaciones**: Mejora drástica en la precisión al integrar bloques de atención FastViT. El modelo muestra una excelente convergencia. Se optimizaron los hiperparámetros con Optuna (15 trials). Se utilizó una paciencia de 10 en Early Stopping.
+* **ID del Experimento**: `mobilenet_v3_fastvit-model-v2`
+* **Precisión en Validación (Mejor)**: 94.89% (Época 39)
+* **Pérdida en Validación (Mejor)**: 0.1668
+* **Precisión en Entrenamiento (Final)**: 99.34% (Época 50)
+* **Precisión en Test (Final)**: 92.44%
+* **Observaciones**: Entrenamiento extendido a 50 épocas utilizando los mejores parámetros encontrados por Optuna. Se alcanzó la mejor precisión de validación en la época 39. El modelo mantiene una excelente capacidad de generalización con un 92.44% en el set de test. Se aumentó el tamaño del conjunto de validación dada las curvas inestables que mostraba en modelos anteriores y en este caso la curva converge algo mejor.
 
 ## Modularización (Refactorización)
 
