@@ -86,24 +86,24 @@ A continuación se listan los hiperparámetros utilizados en esta versión del e
 
 | Parámetro | Valor | Descripción |
 | :--- | :--- | :--- |
-| **Learning Rate** | 0.0033408 | Tasa de aprendizaje sugerida por Optuna. |
-| **Batch Size** | 64 | Tamaño de lote sugerido por Optuna. |
-| **Weight Decay** | 2.3089e-04 | Regularización L2 sugerida por Optuna. |
-| **Epochs** | 30 | Límite máximo de épocas (Early Stopping aplicado). |
+| **Learning Rate** | 0.0020945 | Tasa de aprendizaje óptima sugerida por Optuna. |
+| **Batch Size** | 96 | Tamaño de lote óptimo sugerido por Optuna. |
+| **Weight Decay** | 8.5853e-04 | Regularización L2 sugerida por Optuna. |
+| **Epochs** | 19 | Épocas ejecutadas (Early Stopping aplicado con paciencia 10). |
 | **Image Size** | 128 x 128 | Resolución de entrada. |
-| **Optimizador** | AdamW | Variante avanzada del optimizador Adam. |
-| **Early Stopping** | Paciencia 5 | Detención si la precisión de validación no mejora. |
+| **Optimizador** | AdamW | Variante avanzada del optimizador Adam con Weight Decay. |
+| **Arquitectura** | MobileNetV3 + FastViT | Híbrido con bloques de atención de FastViT. |
 
 ## Resultados Generales
 
 En la ejecución registrada en este cuaderno utilizando la arquitectura **MobileNetV3 Large**, se obtuvieron los siguientes resultados:
 
-* **ID del Experimento**: `mobilenet_v3-model-v2`
-* **Precisión en Validación (Mejor)**: 24.84% (Época 18)
-* **Pérdida en Validación (Mejor)**: 3.3931
-* **Precisión en Entrenamiento (Final)**: 45.37% (Época 23)
-* **Precisión en Test (Final)**: 22.16%
-* **Observaciones**: Se observó una caída significativa en la precisión con respecto a la versión anterior, a pesar de utilizar los mejores parámetros sugeridos por Optuna (`lr: 0.00334`, `batch_size: 64`). El entrenamiento se detuvo por Early Stopping en la época 23. Se mantiene la eliminación del factor `delta` en el Early Stopping. En este entrenamiento se congelaron todas las capas menos la última.
+* **ID del Experimento**: `mobilenet_v3_fastvit-model-v1`
+* **Precisión en Validación (Mejor)**: 94.13% (Época 9)
+* **Pérdida en Validación (Mejor)**: 0.2332
+* **Precisión en Entrenamiento (Final)**: 99.03% (Época 19)
+* **Precisión en Test (Final)**: 93.07%
+* **Observaciones**: Mejora drástica en la precisión al integrar bloques de atención FastViT. El modelo muestra una excelente convergencia. Se optimizaron los hiperparámetros con Optuna (15 trials). Se utilizó una paciencia de 10 en Early Stopping.
 
 ## Modularización (Refactorización)
 
