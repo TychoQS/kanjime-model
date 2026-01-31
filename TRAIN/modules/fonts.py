@@ -1,12 +1,10 @@
 from pathlib import Path
 from matplotlib import font_manager
 import matplotlib.pyplot as plt 
- 
-FONT_PATH = "../Noto_Sans_JP/static/NotoSansJP-Regular.ttf"
 
-def load_font():
+def load_font(font_path):
     """Load a Japanese font in order to display kanjis"""
-    font_path = Path(FONT_PATH)
+    font_path = Path(font_path)
 
     if font_path.exists():
         font_manager.fontManager.addfont(font_path)
