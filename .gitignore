@@ -10,3 +10,6 @@ DATA/
 **/__pycache__/
 *.py[cod]
 *$py.class
+
+# Checkpoint
+TRAIN/Training_Output/last_checkpoint.pth
