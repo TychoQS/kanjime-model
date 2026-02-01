@@ -181,5 +181,5 @@ def train_kaggle(model, optimizer, loss_fn, train_dl, val_dl, epochs=100, device
     print("\n")
     print(f"Training Time: {round(total_time_sec)}")
     print(f"The best epoch: {best_epoch}, Train Accuracy: {round(best_train_acc, 3)}, Validation Accuracy: {round(best_val_acc, 3)}")
-
+    model.load_state_dict(torch.load(model_save_path))
     return model, history
