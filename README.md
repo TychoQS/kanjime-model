@@ -19,7 +19,7 @@ Este proyecto implementa un pipeline completo de Machine Learning para clasifica
 
 
 # Errores conocidos y solventados
-## Discrepancia en Accuracy de Test (Pre-Commit 6216312)
+## Discrepancia en Accuracy de Test (Pre-Commit 6216312) [SOLVED]
 Los resultados de test reportados en commits anteriores a `6216312` pueden diferir 
 de los valores mostrados en los notebooks debido a un error en la evaluación:
 
