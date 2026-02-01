@@ -35,8 +35,8 @@ El cuaderno se estructura en las siguientes secciones lógicas:
     * Soporte para el dataset **ETL9B** (binarizado), reemplazando al ETL9G.
     * Implementación de una clase para la gestión del dataset, encargada de leer las imágenes y sus etiquetas, con soporte para filtrar el número máximo de clases a utilizar.
     * Definición de **transformaciones y aumento de datos (Data Augmentation)** para el conjunto de entrenamiento, incluyendo:
-        * Redimensionado de imágenes.
-        * Conversión a escala de grises (replicando canales para compatibilidad con la red).
+        * Redimensionado de imágenes (96x96).
+        * Conversión a escala de grises (1 canal).
         * Transformaciones geométricas (perspectiva, rotación, traslación).
         * Ajustes de color y desenfoque.
         * Inversión aleatoria de colores y adición de ruido gaussiano.
@@ -64,7 +64,7 @@ El cuaderno se estructura en las siguientes secciones lógicas:
     * **Mejoras en Inferencia**: La función `predict_and_evaluate` ahora soporta dos tipos de formatos para la carga de imágenes:
         * Nombre de archivo como etiqueta (e.g., `あ.png`).
         * Carpeta contenedora como etiqueta (e.g., `あ/001.png`).
-    * **Monte Carlo Dropout**: Se ha implementado la capacidad de aplicar Monte Carlo Dropout durante la inferencia para estimar la incertidumbre del modelo. Esto permite realizar múltiples pasadas con el dropout activado y calcular la media de las probabilidades y la desviación estándar (incertidumbre).
+    * **Incertidumbre**: Se puede extender el modelo para estimar la incertidumbre mediante técnicas como Monte Carlo Dropout si se añaden capas de dropout al entrenamiento.
 
 7.  **Optimización de Hiperparámetros (Optuna)**:
     * Se ha integrado **Optuna** para la búsqueda automática de los mejores hiperparámetros.
@@ -75,10 +75,10 @@ El cuaderno se estructura en las siguientes secciones lógicas:
 
 ## Arquitectura de la Red Neuronal
 
-* **Modelo Base**: MobileNetV3 Large (Optimizado para eficiencia).
-* **Pesos**: Pre-entrenados (Transfer Learning).
-* **Adaptación**: Se sustituye la capa de clasificación original por una capa lineal que proyecta las características extraídas al número de clases Kanji del dataset (aprox. 2965 clases).
-* **Entrada**: Imágenes redimensionadas a 128x128 píxeles. Aunque son en escala de grises, se tratan como 3 canales para cumplir con los requisitos de la red pre-entrenada.
+* **Modelo**: CRNN (Convolutional Recurrent Neural Network).
+* **Extractor de Características**: CNN_backbone (3 capas de convolución + MaxPool).
+* **Clasificador**: Capa lineal final para 150 clases.
+* **Entrada**: Imágenes redimensionadas a 96x96 píxeles en escala de grises (1 canal).
 
 ## Hiperparámetros
 
@@ -86,24 +86,24 @@ A continuación se listan los hiperparámetros utilizados en esta versión del e
 
 | Parámetro | Valor | Descripción |
 | :--- | :--- | :--- |
-| **Learning Rate** | 0.0006933 | Tasa de aprendizaje óptima sugerida por Optuna. |
-| **Batch Size** | 64 | Tamaño de lote óptimo sugerido por Optuna. |
-| **Weight Decay** | 2.4183e-05 | Regularización L2 sugerida por Optuna. |
-| **Epochs** | 50 | Épocas ejecutadas (Entrenamiento extendido). |
-| **Image Size** | 128 x 128 | Resolución de entrada. |
-| **Optimizador** | AdamW | Variante avanzada del optimizador Adam con Weight Decay. |
-| **Arquitectura** | MobileNetV3 + FastViT | Híbrido con bloques de atención de FastViT. |
+| **Learning Rate** | 0.00125 | Tasa de aprendizaje inicial. |
+| **Batch Size** | 16 | Tamaño de lote. |
+| **Epochs** | 50 | Épocas máximas (Finalizado en 15 por Early Stopping). |
+| **Image Size** | 96 x 96 | Resolución de entrada (1 canal). |
+| **Optimizador** | AdamW | Optimizador con decaimiento de peso. |
+| **Arquitectura** | CRNN | CNN + GRU Bidireccional. |
 
 ## Resultados Generales
 
-En la ejecución registrada en este cuaderno utilizando la arquitectura **MobileNetV3 Large**, se obtuvieron los siguientes resultados:
+En la ejecución registrada en este cuaderno utilizando la arquitectura **CRNN**, se obtuvieron los siguientes resultados:
 
-* **ID del Experimento**: `mobilenet_v3_fastvit-model-v2`
-* **Precisión en Validación (Mejor)**: 94.89% (Época 39)
-* **Pérdida en Validación (Mejor)**: 0.1668
-* **Precisión en Entrenamiento (Final)**: 99.34% (Época 50)
-* **Precisión en Test (Final)**: 92.44%
-* **Observaciones**: Entrenamiento extendido a 50 épocas utilizando los mejores parámetros encontrados por Optuna. Se alcanzó la mejor precisión de validación en la época 39. El modelo mantiene una excelente capacidad de generalización con un 92.44% en el set de test. Se aumentó el tamaño del conjunto de validación dada las curvas inestables que mostraba en modelos anteriores y en este caso la curva converge algo mejor.
+* **ID del Experimento**: `crnn-model-v1`
+* **Precisión en Validación (Mejor)**: 54.10% (Época 6)
+* **Pérdida en Validación (Mejor)**: 1.9
+* **Precisión en Entrenamiento (Final)**: 81.3% (Época 15)
+* **Precisión en Test (Final)**: 46.73%
+* **Top-5 Precisión en Test**: 75.39%
+* **Observaciones**: Primera implementación de una arquitectura CRNN para 150 clases. El modelo alcanzó su mejor punto en la época 6 y luego comenzó a sobreentrenar, disparando el Early Stopping en la época 15. A diferencia de los modelos de Transfer Learning, esta arquitectura procesa la imagen como una secuencia, lo que ofrece una perspectiva diferente sobre la clasificación de trazos.
 
 ## Modularización (Refactorización)
 
