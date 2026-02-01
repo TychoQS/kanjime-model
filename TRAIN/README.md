@@ -88,22 +88,24 @@ A continuación se listan los hiperparámetros utilizados en esta versión del e
 | :--- | :--- | :--- |
 | **Learning Rate** | 0.00125 | Tasa de aprendizaje inicial. |
 | **Batch Size** | 16 | Tamaño de lote. |
-| **Epochs** | 50 | Épocas máximas (Finalizado en 15 por Early Stopping). |
+| **Epochs** | 15 | Épocas máximas. |
 | **Image Size** | 96 x 96 | Resolución de entrada (1 canal). |
 | **Optimizador** | AdamW | Optimizador con decaimiento de peso. |
-| **Arquitectura** | CRNN | CNN + GRU Bidireccional. |
+| **Arquitectura** | CRNN | CNN + BiLSTM + FC. |
 
 ## Resultados Generales
 
 En la ejecución registrada en este cuaderno utilizando la arquitectura **CRNN**, se obtuvieron los siguientes resultados:
 
-* **ID del Experimento**: `crnn-model-v1`
-* **Precisión en Validación (Mejor)**: 54.10% (Época 6)
-* **Pérdida en Validación (Mejor)**: 1.9
-* **Precisión en Entrenamiento (Final)**: 81.3% (Época 15)
-* **Precisión en Test (Final)**: 46.73%
-* **Top-5 Precisión en Test**: 75.39%
-* **Observaciones**: Primera implementación de una arquitectura CRNN para 150 clases. El modelo alcanzó su mejor punto en la época 6 y luego comenzó a sobreentrenar, disparando el Early Stopping en la época 15. A diferencia de los modelos de Transfer Learning, esta arquitectura procesa la imagen como una secuencia, lo que ofrece una perspectiva diferente sobre la clasificación de trazos.
+* **ID del Experimento**: `crnn-model-v2`
+* **Precisión en Validación (Mejor)**: 87.29% (Época 15)
+* **Pérdida en Validación (Mejor)**: 0.5156
+* **Precisión en Entrenamiento (Final)**: 83.1% (Época 15)
+* **Precisión en Test (Final)**: 87.30%
+* **Top-5 Precisión en Test**: 98.21%
+* **Evaluación CASIA (Train set)**: Top-1 56.36%, Top-5 81.29%
+* **Evaluación CASIA (Test set)**: Top-1 53.24%, Top-5 78.46%
+* **Observaciones**: Segunda iteración de la arquitectura CRNN. Los resultados han mejorado drásticamente respecto a la v1. Se observa un rendimiento excelente con el conjunto de test del dataset (87.30%), pero un rendimiento más modesto con las pruebas externas (CASIA), lo que sugiere una diferencia de distribución. Cabe destacar que se aplicó aumento de datos (Data Augmentation) incluso durante la validación. La curva de validación es muy buena.
 
 ## Modularización (Refactorización)
 
