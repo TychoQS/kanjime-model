@@ -22,6 +22,8 @@ Los módulos han sido diseñados siguiendo el principio de **separación de resp
 | `optuna.py` | Módulo | Función `objective` para la optimización de hiperparámetros con Optuna. |
 | `fonts.py` | Módulo | Utilidades para la carga de fuentes japonesas (NotoSansJP) para visualización de caracteres. |
 | `image_processing.py` | Módulo | Funciones de procesamiento de imágenes: binarización Otsu, preprocesamiento y desnormalización. |
+| `models.py` | Módulo | Definición centralizada de arquitecturas (CRNN, Hybrid MobileNetV3 + FastViT). |
+
 
 ## Uso
 
@@ -36,6 +38,7 @@ from modules.transforms import GaussianNoise, MorphologicalTransform
 from modules.optuna import objective
 from modules.fonts import load_font
 from modules import image_processing as ip
+from modules.models import build_model
 ```
 
 ## Dependencias
@@ -49,3 +52,5 @@ Los módulos requieren las siguientes librerías:
 - `matplotlib` - Visualización
 - `optuna` - Optimización de hiperparámetros
 - `tqdm` - Barras de progreso
+- `timm` - Modelos pre-entrenados y bloques Transformer
+- `torchinfo` - Visualización de la arquitectura (opcional)

@@ -121,6 +121,7 @@ Los módulos principales son:
 - `train_model.py`: Bucle de entrenamiento con checkpoints
 - `evaluation.py`: Inferencia y evaluación con Monte Carlo Dropout
 - `optuna.py`: Optimización de hiperparámetros
-- `transforms.py`: Transformaciones de Data Augmentation
+- `transforms.py`: Transformaciones de Data Augmentation.
+- `models.py`: Definición de arquitecturas de modelos de red neuronal.
 
 Para más detalles, consultar el archivo `modules/README.md`.
