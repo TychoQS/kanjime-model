@@ -26,6 +26,7 @@
 - DOC_LANGUAGE_INVARIANT: All generated documentation (README.md files) must be in SPANISH.
 - FORMAT_INVARIANT: No conversational filler. Output ONLY the requested artifact.
 - INTEGRITY_INVARIANT: Do not hallucinate metrics. If data is missing for a [MODEL] commit, trigger a PRECONDITION_FAILURE error. Metrics (Val Acc, Loss) MUST correspond to the *BEST SAVED MODEL* (checkpoint), not necessarily the last training epoch.
+- CHECKPOINT_INVARIANT: Never add a checkpoint to the git repository. It is not necessary since we are using git tags to version the models.
 
 # 2. CONTRACT: COMMIT MESSAGES & TAGGING
 # ------------------------------------------------------------------
@@ -151,9 +152,9 @@ The file `training_log.csv` MUST maintain these columns strictly:
 - `epochs_run`: (Actual epochs executed)
 - `val_accuracy`: (e.g., 90%)
 - `val_loss`: (e.g., 5%)
-- `test_accuracy`: (e.g., 70%) **⚠️ CAUTION: When extracting from notebook, always take the FIRST value found for this field. Do not confuse with other accuracy values.**
-- `top_5_test`: (Top 5 accuracy on test set, e.g., 85%) **⚠️ CAUTION: Always take the FIRST Top 5 test accuracy value found in the notebook output.**
-- `top_5_casia`: (Top 5 accuracy on Casia dataset during training, e.g., 80%) **⚠️ CAUTION: Always take the FIRST Top 5 Casia accuracy value found in the notebook output.**
+- `test_accuracy`: (e.g., 70%) **CAUTION: Is on this print ""\nGlobal Test Accuracy: {acc*100:.2f}%".**
+- `top_5_test`: (Top 5 accuracy on test set, e.g., 85%) **CAUTION: Is on this print ""Top-5 Accuracy: {top5_acc*100:.2f}%""**
+- `top_5_casia`: (Top 5 accuracy on Casia dataset during training, e.g., 80%) **CAUTION: Will be unde "====== Evaluation with CASIA train set ======" print output.**
 - `train_loss_final`: (Final loss)
 - `model_size_mb`: (Weight of generated .pth)
 - `notes`: (Brief observations)
