@@ -95,6 +95,7 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, num_epoch
             print(f"Model saved: {model_save_path}")
 
     print('\nTraining finished.')
+    model.load_state_dict(torch.load(model_save_path))
     return model, history
 
 
