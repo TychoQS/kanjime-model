@@ -14,7 +14,7 @@ def enable_dropout(model):
             module.train()
 
 def predict_and_evaluate(model, folder_path, class_names, device, img_size, 
-                         skip_not_in_classes=False, display=True, mc_iterations=0):
+                         skip_not_in_classes=False, display=True, num_channels=1, mc_iterations=0):
     """Make inferences and show stats with the directory passed as parameter.
     Current admited formats:
         - "class_name.jpg/png/jpeg"
@@ -75,7 +75,7 @@ def predict_and_evaluate(model, folder_path, class_names, device, img_size,
         
         # Load and preprocess
         original_img_show = Image.open(file_name)
-        prepared_img_pil = ip.preprocess_image(file_name, img_size)
+        prepared_img_pil = ip.preprocess_image(file_name, img_size, num_channels)
         img_tensor = inference_transforms(prepared_img_pil).unsqueeze(0).to(device)
 
         if mc_iterations > 0:
