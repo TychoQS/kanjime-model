@@ -22,7 +22,7 @@ Los módulos han sido diseñados siguiendo el principio de **separación de resp
 | `optuna.py` | Módulo | Función `objective` para la optimización de hiperparámetros con Optuna. |
 | `fonts.py` | Módulo | Utilidades para la carga de fuentes japonesas (NotoSansJP) para visualización de caracteres. |
 | `image_processing.py` | Módulo | Funciones de procesamiento de imágenes: binarización Otsu, preprocesamiento y desnormalización. |
-| `models.py` | Módulo | Definición centralizada de arquitecturas (CRNN, Hybrid MobileNetV3 + FastViT). |
+| `models.py` | Módulo | Definición centralizada de arquitecturas (CRNN, Hybrid MobileNetV3 + FastViT... etc...) |
 
 
 ## Uso
