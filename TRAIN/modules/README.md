@@ -22,7 +22,11 @@ Los módulos han sido diseñados siguiendo el principio de **separación de resp
 | `optuna.py` | Módulo | Función `objective` para la optimización de hiperparámetros con Optuna. |
 | `fonts.py` | Módulo | Utilidades para la carga de fuentes japonesas (NotoSansJP) para visualización de caracteres. |
 | `image_processing.py` | Módulo | Funciones de procesamiento de imágenes: binarización Otsu, preprocesamiento y desnormalización. |
-| `models.py` | Módulo | Definición centralizada de arquitecturas (CRNN, Hybrid MobileNetV3 + FastViT... etc...) |
+| `models.py` | Módulo | Definición centralizada de arquitecturas (MobileViT v2 de la librería timm). |
+| `config.py` | Módulo | Configuración global y rutas del proyecto centralizadas. |
+| `data_loaders.py` | Módulo | Funciones para la creación de DataLoaders de entrenamiento y validación. |
+| `utils.py` | Módulo | Utilidades generales (semillas, configuración de dispositivo, etc.). |
+
 
 
 ## Uso

@@ -4,6 +4,7 @@ import torch
 from torch.utils.data import DataLoader, Subset
 from torchvision import datasets, transforms, models
 from PIL import Image
+from modules import image_processing as ip
 
 class GaussianNoise(object):
     """Adds random noise to the image to improve model robustness"""
@@ -31,3 +32,36 @@ class MorphologicalTransform(object):
             else:
                 img_np = cv2.dilate(img_np, self.kernel, iterations=1)
         return Image.fromarray(img_np)
+
+def get(img_size, channel_size):
+    """Returns the training and validation transforms"""
+    train_transforms = transforms.Compose([ 
+        transforms.Resize((img_size, img_size)), 
+        transforms.Lambda(lambda x: ip.binarize(x)),
+        transforms.Grayscale(num_output_channels=channel_size),
+        transforms.RandomPerspective(distortion_scale=0.2, p=0.3), 
+        transforms.RandomAffine( 
+            degrees=10,
+            translate=(0.05, 0.05),
+            scale=(0.9, 1.1),
+            shear=5
+        ),
+        transforms.ElasticTransform(alpha=10.0, sigma=5.0),     
+        transforms.ColorJitter(brightness=0.3, contrast=0.3),   
+        transforms.GaussianBlur(kernel_size=3, sigma=(0.1, 2.0)), 
+        MorphologicalTransform(kernel_size=3, p=0.5),
+        transforms.ToTensor(),
+        GaussianNoise(0., 0.03), 
+        transforms.RandomErasing(p=0.3), 
+        ip.NORM
+    ])
+
+    val_transforms = transforms.Compose([ 
+        transforms.Resize((img_size, img_size)),
+        transforms.Lambda(lambda x: ip.binarize(x)),
+        transforms.Grayscale(num_output_channels=channel_size),
+        transforms.ToTensor(),
+        ip.NORM
+    ])
+
+    return train_transforms, val_transforms

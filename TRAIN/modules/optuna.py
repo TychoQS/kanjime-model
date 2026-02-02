@@ -11,7 +11,7 @@ def objective(trial, get_dataloaders_fn, build_model_fn, device, optuna_epochs):
     batch_size = trial.suggest_categorical("batch_size", [64, 96, 128])
     weight_decay = trial.suggest_float("weight_decay", 1e-5, 1e-3, log=True)
     
-    t_loader, v_loader, n_clases = get_dataloaders_fn(batch_size)
+    t_loader, v_loader, n_clases = get_dataloaders_fn(batch_size=batch_size)
     trial_model = build_model_fn(n_clases)
     
     optimizer, scheduler, criterion = setup_training_tools(trial_model, lr, weight_decay)

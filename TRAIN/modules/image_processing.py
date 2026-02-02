@@ -4,9 +4,7 @@ from PIL import Image, ImageOps
 import numpy as np
 from torchvision import transforms
 
-NORM = transforms.Compose([
-    transforms.Normalize([0.5], [0.5])
-])
+NORM = transforms.Compose([])
 
 def binarize(img):
     """Applies binarization"""
@@ -39,6 +37,5 @@ def preprocess_image(image_path, img_size, num_channels=1):
 def denormalize(tensor):
     """Reverts normalization to display the image correctly"""
     img = tensor.clone().detach().cpu()
-    img = img * 0.5 + 0.5 # Reverts normalization from (-1, 1) to (0, 1)
     img = torch.clamp(img, 0, 1)
     return img.permute(1, 2, 0).numpy()
