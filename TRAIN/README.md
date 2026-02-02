@@ -75,10 +75,10 @@ El cuaderno se estructura en las siguientes secciones lógicas:
 
 ## Arquitectura de la Red Neuronal
 
-* **Modelo**: CRNN (Convolutional Recurrent Neural Network).
-* **Extractor de Características**: CNN_backbone (3 capas de convolución + MaxPool).
-* **Clasificador**: Capa lineal final para 150 clases.
-* **Entrada**: Imágenes redimensionadas a 96x96 píxeles en escala de grises (1 canal).
+* **Modelo**: MobileViT v2 (`mobilevitv2_100`).
+* **Extractor de Características**: Bloques MobileViT v2 (Transformer-based convolutions).
+* **Clasificador**: ClassifierHead (Global Average Pooling + Dropout + Linear).
+* **Entrada**: Imágenes redimensionadas a 64x64 píxeles en escala de grises (1 canal).
 
 ## Hiperparámetros
 
@@ -86,26 +86,27 @@ A continuación se listan los hiperparámetros utilizados en esta versión del e
 
 | Parámetro | Valor | Descripción |
 | :--- | :--- | :--- |
-| **Learning Rate** | 0.00125 | Tasa de aprendizaje inicial. |
-| **Batch Size** | 16 | Tamaño de lote. |
-| **Epochs** | 15 | Épocas máximas. |
-| **Image Size** | 96 x 96 | Resolución de entrada (1 canal). |
+| **Learning Rate** | 0.0019 | Tasa de aprendizaje óptima (Optuna). |
+| **Batch Size** | 96 | Tamaño de lote óptimo (Optuna). |
+| **Epochs** | 29 | Épocas ejecutadas (Early Stopping). |
+| **Image Size** | 64 x 64 | Resolución de entrada (1 canal). |
 | **Optimizador** | AdamW | Optimizador con decaimiento de peso. |
-| **Arquitectura** | CRNN | CNN + BiLSTM + FC. |
+| **Arquitectura** | MobileViT v2 | Transformer + Convoluciones. |
 
 ## Resultados Generales
 
 En la ejecución registrada en este cuaderno utilizando la arquitectura **CRNN**, se obtuvieron los siguientes resultados:
 
-* **ID del Experimento**: `crnn-model-v2`
-* **Precisión en Validación (Mejor)**: 87.29% (Época 15)
-* **Pérdida en Validación (Mejor)**: 0.5156
-* **Precisión en Entrenamiento (Final)**: 83.1% (Época 15)
-* **Precisión en Test (Final)**: 87.30%
-* **Top-5 Precisión en Test**: 98.21%
-* **Evaluación CASIA (Train set)**: Top-1 56.36%, Top-5 81.29%
-* **Evaluación CASIA (Test set)**: Top-1 53.24%, Top-5 78.46%
-* **Observaciones**: Segunda iteración de la arquitectura CRNN. Los resultados han mejorado drásticamente respecto a la v1. Se observa un rendimiento excelente con el conjunto de test del dataset (87.30%), pero un rendimiento más modesto con las pruebas externas (CASIA), lo que sugiere una diferencia de distribución. Cabe destacar que se aplicó aumento de datos (Data Augmentation) incluso durante la validación. La curva de validación es muy buena.
+* **ID del Experimento**: `mobilevitv2-model-v1`
+* **Precisión en Validación (Mejor)**: 88.51% (Época 14)
+* **Pérdida en Validación (Mejor)**: 0.3976
+* **Precisión en Entrenamiento (Final)**: 99.06% (Época 29)
+* **Precisión en Test (Final)**: 87.83%
+* **Top-3 Precisión en Test**: 96.22%
+* **Top-5 Precisión en Test**: 98.01%
+* **Evaluación CASIA (Train set)**: Top-1 28.54%, Top-5 53.74%
+* **Evaluación CASIA (Test set)**: Top-1 48.06%, Top-5 75.22%
+* **Observaciones**: Cambio radical de arquitectura a MobileViT v2. Se ha reducido el tamaño de imagen a 64x64 para permitir el entrenamiento. Los resultados en test son comparables a arquitecturas previas más pesadas, demostrando la eficiencia del Transformer. La evaluación en CASIA muestra que el modelo generaliza un poco peor con datos externos.
 
 ## Modularización (Refactorización)
 
