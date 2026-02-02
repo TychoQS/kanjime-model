@@ -2,9 +2,8 @@ import torch
 import timm
 
 def build_model(num_classes):
-    """Model Setup"""
     model = timm.create_model(
-        'mobilevitv2_100', 
+        'ghostnet_100', 
         pretrained=True,
         num_classes=num_classes,
         in_chans=1  

@@ -75,10 +75,10 @@ El cuaderno se estructura en las siguientes secciones lógicas:
 
 ## Arquitectura de la Red Neuronal
 
-* **Modelo**: MobileViT v2 (`mobilevitv2_100`).
-* **Extractor de Características**: Bloques MobileViT v2 (Transformer-based convolutions).
-* **Clasificador**: ClassifierHead (Global Average Pooling + Dropout + Linear).
-* **Entrada**: Imágenes redimensionadas a 64x64 píxeles en escala de grises (1 canal).
+* **Modelo**: GhostNet (`ghostnet_100`).
+* **Extractor de Características**: Bloques GhostNet (Generación eficiente de mapas de características mediante operaciones lineales económicas).
+* **Clasificador**: Capa lineal simple adaptada al número de clases.
+* **Entrada**: Imágenes redimensionadas a 128x128 píxeles en escala de grises (1 canal).
 
 ## Hiperparámetros
 
@@ -86,27 +86,26 @@ A continuación se listan los hiperparámetros utilizados en esta versión del e
 
 | Parámetro | Valor | Descripción |
 | :--- | :--- | :--- |
-| **Learning Rate** | 0.0019 | Tasa de aprendizaje óptima (Optuna). |
-| **Batch Size** | 96 | Tamaño de lote óptimo (Optuna). |
-| **Epochs** | 29 | Épocas ejecutadas (Early Stopping). |
-| **Image Size** | 64 x 64 | Resolución de entrada (1 canal). |
-| **Optimizador** | AdamW | Optimizador con decaimiento de peso. |
-| **Arquitectura** | MobileViT v2 | Transformer + Convoluciones. |
+| **Learning Rate** | 0.00343 | Tasa de aprendizaje definida manualmente. |
+| **Batch Size** | 96 | Tamaño de lote utilizado para el entrenamiento final. |
+| **Epochs** | 26 | Épocas ejecutadas hasta la activación de Early Stopping. |
+| **Image Size** | 128 x 128 | Resolución de entrada (1 canal). |
+| **Optimizador** | Adam | Optimizador estándar. |
+| **Arquitectura** | GhostNet | Arquitectura optimizada para eficiencia. |
 
 ## Resultados Generales
 
-En la ejecución registrada en este cuaderno utilizando la arquitectura **CRNN**, se obtuvieron los siguientes resultados:
+En la ejecución registrada en este cuaderno utilizando la arquitectura **GhostNet**, se obtuvieron los siguientes resultados:
 
-* **ID del Experimento**: `mobilevitv2-model-v1`
-* **Precisión en Validación (Mejor)**: 88.51% (Época 14)
-* **Pérdida en Validación (Mejor)**: 0.3976
-* **Precisión en Entrenamiento (Final)**: 99.06% (Época 29)
-* **Precisión en Test (Final)**: 87.83%
-* **Top-3 Precisión en Test**: 96.22%
-* **Top-5 Precisión en Test**: 98.01%
-* **Evaluación CASIA (Train set)**: Top-1 28.54%, Top-5 53.74%
-* **Evaluación CASIA (Test set)**: Top-1 48.06%, Top-5 75.22%
-* **Observaciones**: Cambio radical de arquitectura a MobileViT v2. Se ha reducido el tamaño de imagen a 64x64 para permitir el entrenamiento. Los resultados en test son comparables a arquitecturas previas más pesadas, demostrando la eficiencia del Transformer. La evaluación en CASIA muestra que el modelo generaliza un poco peor con datos externos.
+* **ID del Experimento**: `ghostnet-model-v1`
+* **Precisión en Validación (Mejor)**: 85.89% (Época 11)
+* **Pérdida en Validación (Mejor)**: 0.5361
+* **Precisión en Entrenamiento (Final)**: 99.11% (Época 26)
+* **Precisión en Test (Final)**: 86.37%
+* **Top-3 Precisión en Test**: 97.05%
+* **Top-5 Precisión en Test**: 98.61%
+* **Evaluación CASIA (Train Accuracy)**: Top-1 25.30%, Top-5 52.07%
+* **Observaciones**: Uso de la arquitectura GhostNet de la librería `timm`. El modelo muestra una excelente convergencia en el dataset ETL9B, superando el 86% en el conjunto de test. Sin embargo, la brecha de rendimiento al evaluar con el dataset externo CASIA (43.77%) indica que el modelo es sensible a las diferencias de distribución entre los datasets japoneses (ETL) y chinos (CASIA). Se aplicó Early Stopping para evitar el sobreentrenamiento excesivo. Las curva de validación sigue teniendo mala pinta. Se opina que es debido a ruido en train.
 
 ## Modularización (Refactorización)
 
