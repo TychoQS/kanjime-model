@@ -86,11 +86,11 @@ A continuación se listan los hiperparámetros utilizados en esta versión del e
 
 | Parámetro | Valor | Descripción |
 | :--- | :--- | :--- |
-| **Learning Rate** | 0.00343 | Tasa de aprendizaje definida manualmente. |
-| **Batch Size** | 96 | Tamaño de lote utilizado para el entrenamiento final. |
+| **Learning Rate** | 0.00344 | Tasa de aprendizaje óptima obtenida por Optuna. |
+| **Batch Size** | 96 | Tamaño de lote óptimo obtenido por Optuna. |
 | **Epochs** | 26 | Épocas ejecutadas hasta la activación de Early Stopping. |
 | **Image Size** | 128 x 128 | Resolución de entrada (1 canal). |
-| **Optimizador** | Adam | Optimizador estándar. |
+| **Optimizador** | AdamW | Optimizador AdamW (con Weight Decay). |
 | **Arquitectura** | GhostNet | Arquitectura optimizada para eficiencia. |
 
 ## Resultados Generales
