@@ -45,7 +45,6 @@ def get(img_size, channel_size):
             shear=5
         ),
         transforms.ElasticTransform(alpha=10.0, sigma=5.0),     
-        # transforms.ColorJitter(brightness=0.3, contrast=0.3),   
         transforms.GaussianBlur(kernel_size=3, sigma=(0.1, 2.0)), 
         MorphologicalTransform(kernel_size=5, p=0.5),
         transforms.Grayscale(num_output_channels=channel_size),

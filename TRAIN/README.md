@@ -86,9 +86,9 @@ A continuación se listan los hiperparámetros utilizados en esta versión del e
 
 | Parámetro | Valor | Descripción |
 | :--- | :--- | :--- |
-| **Learning Rate** | 0.00344 | Tasa de aprendizaje óptima obtenida por Optuna. |
-| **Batch Size** | 96 | Tamaño de lote óptimo obtenido por Optuna. |
-| **Epochs** | 26 | Épocas ejecutadas hasta la activación de Early Stopping. |
+| **Learning Rate** | 0.00008 | Tasa de aprendizaje definida. |
+| **Batch Size** | 128 | Tamaño de lote. |
+| **Epochs** | 29 | Épocas ejecutadas. |
 | **Image Size** | 128 x 128 | Resolución de entrada (1 canal). |
 | **Optimizador** | AdamW | Optimizador AdamW (con Weight Decay). |
 | **Arquitectura** | GhostNet | Arquitectura optimizada para eficiencia. |
@@ -97,15 +97,14 @@ A continuación se listan los hiperparámetros utilizados en esta versión del e
 
 En la ejecución registrada en este cuaderno utilizando la arquitectura **GhostNet**, se obtuvieron los siguientes resultados:
 
-* **ID del Experimento**: `ghostnet-model-v1`
-* **Precisión en Validación (Mejor)**: 85.89% (Época 11)
-* **Pérdida en Validación (Mejor)**: 0.5361
-* **Precisión en Entrenamiento (Final)**: 99.11% (Época 26)
-* **Precisión en Test (Final)**: 86.37%
-* **Top-3 Precisión en Test**: 97.05%
-* **Top-5 Precisión en Test**: 98.61%
-* **Evaluación CASIA (Train Accuracy)**: Top-1 25.30%, Top-5 52.07%
-* **Observaciones**: Uso de la arquitectura GhostNet de la librería `timm`. El modelo muestra una excelente convergencia en el dataset ETL9B, superando el 86% en el conjunto de test. Sin embargo, la brecha de rendimiento al evaluar con el dataset externo CASIA (43.77%) indica que el modelo es sensible a las diferencias de distribución entre los datasets japoneses (ETL) y chinos (CASIA). Se aplicó Early Stopping para evitar el sobreentrenamiento excesivo. Las curva de validación sigue teniendo mala pinta. Se opina que es debido a ruido en train.
+* **ID del Experimento**: `ghostnet-model-v2`
+* **Precisión en Validación (Mejor)**: 99.67%
+* **Pérdida en Validación (Mejor)**: 0.0170
+* **Precisión en Entrenamiento (Final)**: 96.73%
+* **Precisión en Test (Final)**: 99.64%
+* **Top-5 Precisión en Test**: 100.00%
+* **Evaluación CASIA (Train Top-5)**: 91.10%
+* **Observaciones**: Tras identificar la data augmentation que daba problemas, han mejorado bastante los resultados y las curva de validación tiene mejor pinta. El modelo muestra un rendimiento excepcional en el dataset ETL9B y ha mejorado drásticamente en CASIA.
 
 ## Modularización (Refactorización)
 
