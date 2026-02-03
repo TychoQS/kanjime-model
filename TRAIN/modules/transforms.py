@@ -37,29 +37,29 @@ def get(img_size, channel_size):
     """Returns the training and validation transforms"""
     train_transforms = transforms.Compose([ 
         transforms.Resize((img_size, img_size)), 
-        transforms.Lambda(lambda x: ip.binarize(x)),
-        transforms.Grayscale(num_output_channels=channel_size),
-        transforms.RandomPerspective(distortion_scale=0.2, p=0.3), 
+        transforms.RandomPerspective(distortion_scale=0.5, p=0.5), 
         transforms.RandomAffine( 
-            degrees=10,
+            degrees=20,
             translate=(0.05, 0.05),
             scale=(0.9, 1.1),
             shear=5
         ),
         transforms.ElasticTransform(alpha=10.0, sigma=5.0),     
-        transforms.ColorJitter(brightness=0.3, contrast=0.3),   
+        # transforms.ColorJitter(brightness=0.3, contrast=0.3),   
         transforms.GaussianBlur(kernel_size=3, sigma=(0.1, 2.0)), 
-        MorphologicalTransform(kernel_size=3, p=0.5),
+        MorphologicalTransform(kernel_size=5, p=0.5),
+        transforms.Grayscale(num_output_channels=channel_size),
+        transforms.Lambda(lambda x: ip.binarize(x)),
         transforms.ToTensor(),
-        GaussianNoise(0., 0.03), 
+        # GaussianNoise(0., 0.03), 
         transforms.RandomErasing(p=0.3), 
         ip.NORM
     ])
 
     val_transforms = transforms.Compose([ 
         transforms.Resize((img_size, img_size)),
-        transforms.Lambda(lambda x: ip.binarize(x)),
         transforms.Grayscale(num_output_channels=channel_size),
+        transforms.Lambda(lambda x: ip.binarize(x)),
         transforms.ToTensor(),
         ip.NORM
     ])
