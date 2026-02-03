@@ -47,8 +47,8 @@ def get(img_size, channel_size):
         transforms.ElasticTransform(alpha=10.0, sigma=5.0),     
         transforms.GaussianBlur(kernel_size=3, sigma=(0.1, 2.0)), 
         MorphologicalTransform(kernel_size=5, p=0.5),
-        transforms.Grayscale(num_output_channels=channel_size),
         transforms.Lambda(lambda x: ip.binarize(x)),
+        transforms.Grayscale(num_output_channels=channel_size),
         transforms.ToTensor(),
         # GaussianNoise(0., 0.03), 
         transforms.RandomErasing(p=0.3), 
@@ -57,8 +57,8 @@ def get(img_size, channel_size):
 
     val_transforms = transforms.Compose([ 
         transforms.Resize((img_size, img_size)),
-        transforms.Grayscale(num_output_channels=channel_size),
         transforms.Lambda(lambda x: ip.binarize(x)),
+        transforms.Grayscale(num_output_channels=channel_size),
         transforms.ToTensor(),
         ip.NORM
     ])

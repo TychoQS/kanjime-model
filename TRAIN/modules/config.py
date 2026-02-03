@@ -5,8 +5,8 @@ import sys
 RANDOM_SEED = 42
 
 # Execution flags
-QUICK_TEST = False
-OPTUNA_ENABLED = True
+QUICK_TEST = True
+OPTUNA_ENABLED = False
 ON_KAGGLE = os.path.exists('/kaggle/input')
 
 # Paths
@@ -46,7 +46,7 @@ MODEL_PATH = MODEL_SAVE_PATH
 if QUICK_TEST:
     MAX_CLASSES_LIMIT = 5
     BATCH_SIZE = 2
-    NUM_EPOCHS = 30
+    NUM_EPOCHS = 1
     OPTUNA_TRIALS = 4
     OPTUNA_EPOCHS = 1
 else:
@@ -55,7 +55,7 @@ else:
     NUM_EPOCHS = 30
     OPTUNA_TRIALS = 15
     OPTUNA_EPOCHS = 15
-CHANEL_SIZE = 1 
+CHANEL_SIZE = 3 
 LEARNING_RATE = 0.00125
 WEIGHT_DECAY = 0.01
 IMG_SIZE = 128
