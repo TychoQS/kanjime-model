@@ -88,9 +88,9 @@ A continuación se listan los hiperparámetros utilizados en esta versión del e
 
 | Parámetro | Valor | Descripción |
 | :--- | :--- | :--- |
-| **Learning Rate** | 0.00159 | Tasa de aprendizaje definida. |
-| **Batch Size** | 64 | Tamaño de lote. |
-| **Epochs** | 14 | Épocas ejecutadas. |
+| **Learning Rate** | 0.00178 | Tasa de aprendizaje (Optuna). |
+| **Batch Size** | 96 | Tamaño de lote. |
+| **Epochs** | 26 | Épocas ejecutadas. |
 | **Image Size** | 128 x 128 | Resolución de entrada (1 canal). |
 | **Optimizador** | AdamW | Optimizador AdamW (con Weight Decay). |
 | **Arquitectura** | MobileNetV3 | Arquitectura optimizada para eficiencia. |
@@ -99,14 +99,14 @@ A continuación se listan los hiperparámetros utilizados en esta versión del e
 
 En la ejecución registrada en este cuaderno utilizando la arquitectura **MobileNetV3**, se obtuvieron los siguientes resultados:
 
-* **ID del Experimento**: `mobilenet_v3-model-v3`
-* **Precisión en Validación (Mejor)**: 99.55%
-* **Pérdida en Validación (Mejor)**: 0.0284
-* **Precisión en Entrenamiento (Final)**: 96.14%
+* **ID del Experimento**: `mobilenet_v3-model-v4`
+* **Precisión en Validación (Mejor)**: 99.59%
+* **Pérdida en Validación (Mejor)**: 0.0340
+* **Precisión en Entrenamiento (Final)**: 96.68%
 * **Precisión en Test (Final)**: 99.57%
 * **Top-5 Precisión en Test**: 100.00%
-* **Evaluación CASIA (Train Top-5)**: 89.55%
-* **Observaciones**: Tras identificar la data augmentation que daba problemas, han mejorado bastante los resultados y las curva de validación tiene mejor pinta. El modelo muestra un rendimiento excepcional en el dataset ETL9B y ha mejorado drásticamente en CASIA.
+* **Evaluación CASIA (Train Top-5)**: 92.61%
+* **Observaciones**: El modelo mantiene un rendimiento excepcional con la arquitectura multi-head. Se han utilizado los mejores hiperparámetros encontrados por Optuna.
 
 ## Modularización (Refactorización)
 
