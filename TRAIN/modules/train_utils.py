@@ -46,6 +46,7 @@ def setup_training_tools(model, lr, weight_decay, factor=0.5, patience=2):
         patience=patience, # Wait for patience epochs before reducing LR
         min_lr=1e-6 # Minimum LR value
     )
-    criterion = nn.CrossEntropyLoss()
+    criterion_kanji = nn.CrossEntropyLoss()
+    criterion_components = nn.BCEWithLogitsLoss()
     
-    return optimizer, scheduler, criterion
+    return optimizer, scheduler, criterion_kanji, criterion_components

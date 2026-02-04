@@ -4,12 +4,12 @@ import time
 from tqdm import tqdm
 from tqdm.notebook import tqdm_notebook
 
-def train_model(model, train_loader, val_loader, criterion, optimizer, num_epochs, output_dir, model_save_path, device, early_stopping, scheduler=None, start_epoch=0, best_acc=0.0, history=None):    
+def train_model(model, train_loader, val_loader, criterion_kanji, criterion_components, optimizer, num_epochs, output_dir, model_save_path, device, early_stopping, scheduler=None, start_epoch=0, best_acc=0.0, history=None):    
     """Training function for the model"""
     if history is None: # Create history if not provided (not resuming training)
         history = {
-            'train_loss': [], 'train_acc': [],
-            'val_loss': [], 'val_acc': []
+        'train_loss': [], 'train_acc': [], 'train_comp_acc': [],
+        'val_loss': [], 'val_acc': [], 'val_comp_acc': []
         }
     print(f"Saving results to: {output_dir}")
     
@@ -21,18 +21,24 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, num_epoch
         model.train() # Set model to training mode (enables Dropout/BatchNorm)
         running_loss = 0.0
         running_corrects = 0
+        running_corrects_components = 0
 
         for inputs, labels in tqdm(train_loader, desc="Training"):
             inputs = inputs.to(device)
-            labels = labels.to(device)
+            labels_kanji = labels['kanji'].to(device)
+            labels_components = labels['components'].to(device)
 
             optimizer.zero_grad() # Clear gradients from previous step
             
             # Forward pass: Compute predicted outputs by passing inputs to the model
-            outputs = model(inputs)
-            _, preds = torch.max(outputs, 1)
+            outputs_kanji, outputs_components = model(inputs)
+            _, preds = torch.max(outputs_kanji, 1)
+            preds_components = (torch.sigmoid(outputs_components) > 0.5).float()
         
-            loss = criterion(outputs, labels) # Calculate loss
+            # Calculate losses
+            loss_kanji = criterion_kanji(outputs_kanji, labels_kanji)
+            loss_components = criterion_components(outputs_components, labels_components)
+            loss = loss_kanji + loss_components
         
             loss.backward() # Compute gradients
             
@@ -40,41 +46,52 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, num_epoch
 
             
             running_loss += loss.item() * inputs.size(0)
-            running_corrects += torch.sum(preds == labels.data)
+            running_corrects += torch.sum(preds == labels_kanji.data)
+            exact_match = (preds_components == labels_components).all(dim=1).float()
+            running_corrects_components += exact_match.sum()
 
         # Training stats
         epoch_loss = running_loss / len(train_loader.dataset)
         epoch_acc = running_corrects.double().item() / len(train_loader.dataset)
-
+        epoch_comp_acc = running_corrects_components.double().item() / len(train_loader.dataset)
+        
+        history['train_comp_acc'].append(epoch_comp_acc)
         history['train_loss'].append(epoch_loss)
         history['train_acc'].append(epoch_acc)
 
-        print(f'Train Loss: {epoch_loss:.4f} Acc: {epoch_acc:.4f}')
+        print(f'Train Loss: {epoch_loss:.4f} | Kanji Acc: {epoch_acc:.4f} | Comp Acc: {epoch_comp_acc:.4f}')
 
         # Validation
         model.eval() # Set model to evaluation mode 
         val_loss_val = 0.0
         val_corrects = 0
+        val_corrects_components = 0
 
         with torch.no_grad():
             for inputs, labels in val_loader:
                 inputs = inputs.to(device)
-                labels = labels.to(device)
+                l_kanji = labels['kanji'].to(device)
+                l_comp = labels['components'].to(device)
 
-                outputs = model(inputs)
-                _, preds = torch.max(outputs, 1)
-                loss = criterion(outputs, labels)
-
+                out_k, out_c = model(inputs)
+                _, preds = torch.max(out_k, 1)
+                preds_comp = (torch.sigmoid(out_c) > 0.5).float()
+                loss = criterion_kanji(out_k, l_kanji) + criterion_components(out_c, l_comp)
                 val_loss_val += loss.item() * inputs.size(0)
-                val_corrects += torch.sum(preds == labels.data)
+                val_corrects += torch.sum(preds == l_kanji.data)
+                exact_match_val = (preds_comp == l_comp).all(dim=1).float()
+                val_corrects_components += exact_match_val.sum()
 
         # Validation stats
         val_loss_epoch = val_loss_val / len(val_loader.dataset)
         val_acc = val_corrects.double().item() / len(val_loader.dataset)
+        val_comp_acc = val_corrects_components.double().item() / len(val_loader.dataset)
+
+        history['val_comp_acc'].append(val_comp_acc)
         history['val_loss'].append(val_loss_epoch)
         history['val_acc'].append(val_acc)
 
-        print(f'Val Loss: {val_loss_epoch:.4f} Acc: {val_acc:.4f}')
+        print(f'Val Loss: {val_loss_epoch:.4f} | Kanji Acc: {val_acc:.4f} | Comp Acc: {val_comp_acc:.4f}')
         if scheduler: 
             scheduler.step(val_acc) # Update scheduler
             print(f'Current Learning Rate: {optimizer.param_groups[0]["lr"]:.6f}')

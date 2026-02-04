@@ -4,6 +4,7 @@ from torchvision import transforms
 import pandas as pd
 from PIL import Image
 import os 
+import json
 
 
 CJK_UNIFIED_START = '\u4e00'
@@ -12,10 +13,14 @@ CJK_UNIFIED_END = '\u9fff'
 class ETL9Dataset(torch.utils.data.Dataset):
     """Dataset for ETL9 dataset"""
 
-    def __init__(self, root_dir, transform=None, max_classes=None):
+    def __init__(self, root_dir, transform=None, max_classes=None, json_path=None):
         self.root_dir = root_dir
         self.transform = transform
         self.samples = [] 
+        self.kanji_components = {}
+        if json_path is not None:
+            with open(json_path, 'r', encoding='utf-8') as f:
+                self.kanji_components = json.load(f)
         
         subfolders = sorted([f for f in os.listdir(root_dir) if f.endswith('_unpack')])
         
@@ -73,8 +78,18 @@ class ETL9Dataset(torch.utils.data.Dataset):
         
         self.classes = sorted(list(set([x[1] for x in self.samples])))
         self.class_to_idx = {cls_name: i for i, cls_name in enumerate(self.classes)}
+
+        # Getting only components for kanjis in the dataset
+        all_components = set()
+        for kanji in self.classes:
+            if kanji in self.kanji_components:
+                all_components.update(self.kanji_components[kanji])
+
+        self.comp_sorted = sorted(list(all_components))
+        self.comp_to_idx = {comp: i for i, comp in enumerate(self.comp_sorted)}
         
         print(f"Dataset initialized. Images: {len(self.samples)}. Classes (Kanji): {len(self.classes)}")
+        print(f"Components found: {len(self.comp_to_idx)}")
 
     def __len__(self):
         return len(self.samples)
@@ -83,8 +98,18 @@ class ETL9Dataset(torch.utils.data.Dataset):
         img_path, label_char = self.samples[idx]
         image = Image.open(img_path).convert('L')
         label_idx = self.class_to_idx[label_char]
-        
+
+        components = torch.zeros(len(self.comp_to_idx))
+        if label_char in self.kanji_components:
+            for comp in self.kanji_components[label_char]:
+                if comp in self.comp_to_idx:
+                    comp_idx = self.comp_to_idx[comp]
+                    components[comp_idx] = 1.
+
         if self.transform:
             image = self.transform(image)
             
-        return image, torch.tensor(label_idx)
+        return image, {
+        'kanji': torch.tensor(label_idx),
+        'components': components
+        }

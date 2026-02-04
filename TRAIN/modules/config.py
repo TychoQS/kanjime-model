@@ -22,6 +22,7 @@ if ON_KAGGLE:
     CASIA_DATASET_TEST_PATH = "/kaggle/input/chinese-handwriting/CASIA-HWDB_Test/Test"
     FONT_PATH = '/kaggle/input/noto-sans-jp/Noto_Sans_JP/static/NotoSansJP-Regular.ttf'
     OUTPUT_DIR = '/kaggle/working/Training_Output'
+    COMPONENTS_JSON_PATH = '/kaggle/working/kanjiVG/kanji_standard.json'
 else:
     # Local paths
     DATASET_PATH = '../DATA/etlcb/ETL9B'
@@ -30,16 +31,19 @@ else:
     CASIA_DATASET_TEST_PATH = "../DATA/chinese-handwriting/CASIA-HWDB_Test/Test"
     FONT_PATH = '../Noto_Sans_JP/static/NotoSansJP-Regular.ttf'
     OUTPUT_DIR = './Training_Output'
+    COMPONENTS_JSON_PATH = '../DATA/kanjiVG/kanji_standard.json'
 
 # Filenames
 MODEL_FILENAME = 'best_kanji_model.pth'
 HISTORY_FILENAME = 'training_history.json'
 CLASSES_FILENAME = 'classes.json'
+COMPONENT_CLASSES_FILENAME = 'component_classes.json'
 
 # Full file paths
 MODEL_SAVE_PATH = os.path.join(OUTPUT_DIR, MODEL_FILENAME)
 HISTORY_SAVE_PATH = os.path.join(OUTPUT_DIR, HISTORY_FILENAME)
 CLASSES_SAVE_PATH = os.path.join(OUTPUT_DIR, CLASSES_FILENAME)
+COMPONENTS_SAVE_PATH = os.path.join(OUTPUT_DIR, COMPONENT_CLASSES_FILENAME)
 MODEL_PATH = MODEL_SAVE_PATH
 
 # Hyperparameters
