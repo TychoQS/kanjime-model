@@ -5,8 +5,8 @@ import sys
 RANDOM_SEED = 42
 
 # Execution flags
-QUICK_TEST = True
-OPTUNA_ENABLED = False
+QUICK_TEST = False
+OPTUNA_ENABLED = True
 ON_KAGGLE = os.path.exists('/kaggle/input')
 
 # Paths
