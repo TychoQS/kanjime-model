@@ -75,10 +75,12 @@ El cuaderno se estructura en las siguientes secciones lógicas:
 
 ## Arquitectura de la Red Neuronal
 
-* **Modelo**: GhostNet (`ghostnet_100`).
-* **Extractor de Características**: Bloques GhostNet (Generación eficiente de mapas de características mediante operaciones lineales económicas).
-* **Clasificador**: Capa lineal simple adaptada al número de clases.
-* **Entrada**: Imágenes redimensionadas a 128x128 píxeles en escala de grises (1 canal).
+* **Modelo Base**: MobileNetV3 Large (`mobilenet_v3_large`).
+* **Cabezales (Multi-Head)**:
+    * **Kanji Head**: Clasificación de los caracteres Kanji (clases principales).
+    * **Component Head**: Clasificación auxiliar de componentes/radicales para mejorar la representación interna.
+* **Entrada**: Imágenes redimensionadas a 128x128 píxeles en escala de grises (1 canal) o 3 canales según configuración.
+* **Estrategia**: El backbone extrae features que se comparten entre ambos cabezales, forzando al modelo a aprender características estructurales (trazos/radicales) robustas.
 
 ## Hiperparámetros
 

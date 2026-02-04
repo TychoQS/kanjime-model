@@ -154,7 +154,7 @@ The file `training_log.csv` MUST maintain these columns strictly:
 - `val_loss`: (e.g., 5%)
 - `test_accuracy`: (e.g., 70%) **CAUTION: Is on this print ""\nGlobal Test Accuracy: {acc*100:.2f}%".**
 - `top_5_test`: (Top 5 accuracy on test set, e.g., 85%) **CAUTION: Is on this print ""Top-5 Accuracy: {top5_acc*100:.2f}%""**
-- `top_5_casia`: (Top 5 accuracy on Casia dataset during training, e.g., 80%) **CAUTION: Will be unde "====== Evaluation with CASIA train set ======" print output.**
+- `top_5_casia`: (Top 5 accuracy on Casia dataset during training, e.g., 80%) **CAUTION: Is on this print "Top-5 Accuracy: <correct>/<total> (<acc>%)" under "====== Evaluation with CASIA train set ======" print output.**
 - `train_loss_final`: (Final loss)
 - `model_size_mb`: (Weight of generated .pth)
 - `notes`: (Brief observations)
