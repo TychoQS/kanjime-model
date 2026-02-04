@@ -5,8 +5,13 @@ import pandas as pd
 from PIL import Image
 import os 
 
+
+CJK_UNIFIED_START = '\u4e00'
+CJK_UNIFIED_END = '\u9fff'
+
 class ETL9Dataset(torch.utils.data.Dataset):
     """Dataset for ETL9 dataset"""
+
     def __init__(self, root_dir, transform=None, max_classes=None):
         self.root_dir = root_dir
         self.transform = transform
@@ -31,7 +36,7 @@ class ETL9Dataset(torch.utils.data.Dataset):
                         df = pd.read_csv(csv_path)
                         for label_char in df.iloc[:, 1]:
                             # Kanji based on Unicode range
-                            if '\u4e00' <= label_char <= '\u9fff':
+                            if CJK_UNIFIED_START <= label_char <= CJK_UNIFIED_END:
                                 all_classes.add(label_char)
                     except Exception as e:
                         print(f"Error while reading {csv_path}: {e}")
@@ -55,7 +60,7 @@ class ETL9Dataset(torch.utils.data.Dataset):
                         label_char = row.iloc[1]
                         
                         # Kanji based on Unicode range
-                        if '\u4e00' <= label_char <= '\u9fff':
+                        if CJK_UNIFIED_START <= label_char <= CJK_UNIFIED_END:
                             if selected_classes is None or label_char in selected_classes:
                                 img_name = f"{int(row.iloc[0]):05d}.png"
                                 img_path = os.path.join(folder_path, img_name)
