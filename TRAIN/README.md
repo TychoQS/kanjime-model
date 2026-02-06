@@ -75,11 +75,11 @@ El cuaderno se estructura en las siguientes secciones lógicas:
 
 ## Arquitectura de la Red Neuronal
 
-* **Modelo Base**: MobileNetV3 Large (`mobilenet_v3_large`).
+* **Modelo Base**: GhostNet.
 * **Cabezales (Multi-Head)**:
     * **Kanji Head**: Clasificación de los caracteres Kanji (clases principales).
     * **Component Head**: Clasificación auxiliar de componentes/radicales para mejorar la representación interna.
-* **Entrada**: Imágenes redimensionadas a 128x128 píxeles en escala de grises (1 canal) o 3 canales según configuración.
+* **Entrada**: Imágenes redimensionadas a 128x128 píxeles en 3 canales.
 * **Estrategia**: El backbone extrae features que se comparten entre ambos cabezales, forzando al modelo a aprender características estructurales (trazos/radicales) robustas.
 
 ## Hiperparámetros
@@ -88,25 +88,25 @@ A continuación se listan los hiperparámetros utilizados en esta versión del e
 
 | Parámetro | Valor | Descripción |
 | :--- | :--- | :--- |
-| **Learning Rate** | 0.00178 | Tasa de aprendizaje (Optuna). |
-| **Batch Size** | 96 | Tamaño de lote. |
-| **Epochs** | 26 | Épocas ejecutadas. |
-| **Image Size** | 128 x 128 | Resolución de entrada (1 canal). |
+| **Learning Rate** | 0.0008189 | Tasa de aprendizaje (Optuna). |
+| **Batch Size** | 128 | Tamaño de lote. |
+| **Epochs** | 30 | Épocas ejecutadas. |
+| **Image Size** | 128 x 128 | Resolución de entrada (3 canales). |
 | **Optimizador** | AdamW | Optimizador AdamW (con Weight Decay). |
-| **Arquitectura** | MobileNetV3 | Arquitectura optimizada para eficiencia. |
+| **Arquitectura** | GhostNet | Arquitectura orientada a eficiencia con módulos Ghost. |
 
 ## Resultados Generales
 
-En la ejecución registrada en este cuaderno utilizando la arquitectura **MobileNetV3**, se obtuvieron los siguientes resultados:
+En la ejecución registrada en este cuaderno utilizando la arquitectura **GhostNet**, se obtuvieron los siguientes resultados:
 
-* **ID del Experimento**: `mobilenet_v3-model-v4`
-* **Precisión en Validación (Mejor)**: 99.59%
-* **Pérdida en Validación (Mejor)**: 0.0340
-* **Precisión en Entrenamiento (Final)**: 96.68%
-* **Precisión en Test (Final)**: 99.57%
+* **ID del Experimento**: `ghostnet-model-v3`
+* **Precisión en Validación (Mejor)**: 99.54%
+* **Pérdida en Validación (Mejor)**: 0.0233
+* **Precisión en Entrenamiento (Final)**: 96.72%
+* **Precisión en Test (Final)**: 99.73%
 * **Top-5 Precisión en Test**: 100.00%
-* **Evaluación CASIA (Train Top-5)**: 92.61%
-* **Observaciones**: El modelo mantiene un rendimiento excepcional con la arquitectura multi-head. Se han utilizado los mejores hiperparámetros encontrados por Optuna.
+* **Evaluación CASIA (Train Top-5)**: 93.50%
+* **Observaciones**: El modelo utiliza una arquitectura multi-head (Kanji + Componentes) sobre un backbone GhostNet. Se han utilizado los mejores hiperparámetros encontrados por Optuna para maximizar el rendimiento.
 
 ## Modularización (Refactorización)
 
