@@ -40,17 +40,14 @@ pdf(output_file, width = 11, height = 8.5)
 # Función auxiliar para colores elegantes
 colors_main <- c("#2E5A88", "#D97D3A", "#4E9F3D", "#C84C4C", "#7B4EA3", "#A34E7B")
 
-# Función para simplificar/agrupar nombres de arquitectura
-simplify_arch <- function(name) {
-  if (grepl("ResNet", name, ignore.case = TRUE)) return("ResNet")
-  if (grepl("MobileNet", name, ignore.case = TRUE)) return("MobileNet")
-  if (grepl("GhostNet", name, ignore.case = TRUE)) return("GhostNet")
-  if (grepl("CRNN", name, ignore.case = TRUE)) return("CRNN")
-  if (grepl("MobileViT", name, ignore.case = TRUE)) return("MobileViT")
-  if (grepl("FastViT", name, ignore.case = TRUE)) return("MobileNet+ViT")
-  return("Otras")
+# Función para extraer la "línea" del experimento (p.ej., 'ghostnet-model' de 'ghostnet-model-v4')
+get_experiment_line <- function(id) {
+  # Eliminamos el sufijo de versión "-v1", "-v2", etc.
+  line <- sub("-v[0-9]+$", "", id)
+  return(line)
 }
-data$arch_group <- sapply(data$architecture, simplify_arch)
+
+data$experiment_line <- sapply(data$experiment_id, get_experiment_line)
 
 # --- Página 1: Val vs Test Accuracy ---
 par(mfrow = c(1, 1), mar = c(10, 6, 4, 2) + 0.1)
@@ -92,39 +89,38 @@ grid(nx = NA, ny = NULL, col = "gray", lty = "dotted")
 legend("topleft", legend = c("Top-5 Test", "Top-5 CASIA"), 
        fill = colors_main[3:4], bty = "n", horiz = TRUE)
 
-# --- Página 3: Análisis por Arquitectura (Test Accuracy) ---
+# --- Página 3: Análisis por Línea de Experimento (Test Accuracy) ---
 par(mfrow = c(1, 1), mar = c(10, 6, 4, 2) + 0.1)
-arch_stats <- aggregate(test_accuracy ~ arch_group, data = data, 
+line_stats <- aggregate(test_accuracy ~ experiment_line, data = data, 
                         function(x) c(mean = mean(x, na.rm = TRUE), sd = sd(x, na.rm = TRUE)))
-arch_stats <- data.frame(Group = arch_stats$arch_group, 
-                         Mean = arch_stats$test_accuracy[, "mean"],
-                         SD = ifelse(is.na(arch_stats$test_accuracy[, "sd"]), 0, arch_stats$test_accuracy[, "sd"]))
-arch_stats <- arch_stats[order(-arch_stats$Mean), ]
+line_stats <- data.frame(Group = line_stats$experiment_line, 
+                         Mean = line_stats$test_accuracy[, "mean"],
+                         SD = ifelse(is.na(line_stats$test_accuracy[, "sd"]), 0, line_stats$test_accuracy[, "sd"]))
+line_stats <- line_stats[order(-line_stats$Mean), ]
 
-b_plot <- barplot(arch_stats$Mean, names.arg = arch_stats$Group, las = 2, 
-                  col = colors_main, main = "Rendimiento Medio por Familia (Test Accuracy)",
-                  ylab = "Accuracy (%)", ylim = c(0, 115), border = "white")
-arrows(b_plot, arch_stats$Mean - arch_stats$SD, b_plot, arch_stats$Mean + arch_stats$SD, 
+b_plot <- barplot(line_stats$Mean, names.arg = line_stats$Group, las = 2, 
+                  col = colors_main, main = "Rendimiento Medio por Línea (Test Accuracy)",
+                  ylab = "Accuracy (%)", ylim = c(0, 115), border = "white", cex.names = 0.8)
+arrows(b_plot, line_stats$Mean - line_stats$SD, b_plot, line_stats$Mean + line_stats$SD, 
        angle = 90, code = 3, length = 0.05)
-text(b_plot, arch_stats$Mean + arch_stats$SD + 3, labels = paste0(round(arch_stats$Mean, 1), "%"), font = 2)
+text(b_plot, line_stats$Mean + line_stats$SD + 3, labels = paste0(round(line_stats$Mean, 1), "%"), font = 2, cex = 0.8)
 grid(nx = NA, ny = NULL, col = "gray", lty = "dotted")
 
-# --- Página 4: Análisis por Arquitectura (CASIA Top-5) ---
+# --- Página 4: Análisis por Línea de Experimento (CASIA Top-5) ---
 par(mfrow = c(1, 1), mar = c(10, 6, 4, 2) + 0.1)
-# Filtrar solo donde tengamos datos de CASIA de forma simplificada
-casia_stats <- aggregate(top_5_casia ~ arch_group, data = data, 
+casia_l_stats <- aggregate(top_5_casia ~ experiment_line, data = data, 
                          function(x) c(mean = mean(x, na.rm = TRUE), sd = sd(x, na.rm = TRUE)))
-casia_stats <- data.frame(Group = casia_stats$arch_group, 
-                          Mean = casia_stats$top_5_casia[, "mean"],
-                          SD = ifelse(is.na(casia_stats$top_5_casia[, "sd"]), 0, casia_stats$top_5_casia[, "sd"]))
-casia_stats <- casia_stats[order(-casia_stats$Mean), ]
+casia_l_stats <- data.frame(Group = casia_l_stats$experiment_line, 
+                          Mean = casia_l_stats$top_5_casia[, "mean"],
+                          SD = ifelse(is.na(casia_l_stats$top_5_casia[, "sd"]), 0, casia_l_stats$top_5_casia[, "sd"]))
+casia_l_stats <- casia_l_stats[order(-casia_l_stats$Mean), ]
 
-b_plot_c <- barplot(casia_stats$Mean, names.arg = casia_stats$Group, las = 2, 
-                    col = colors_main[c(5,6,1,2,3,4)], main = "Rendimiento Medio por Familia (CASIA Top-5)",
-                    ylab = "Top-5 Accuracy (%)", ylim = c(0, 115), border = "white")
-arrows(b_plot_c, casia_stats$Mean - casia_stats$SD, b_plot_c, casia_stats$Mean + casia_stats$SD, 
+b_plot_lc <- barplot(casia_l_stats$Mean, names.arg = casia_l_stats$Group, las = 2, 
+                    col = colors_main[c(5,6,1,2,3,4)], main = "Rendimiento Medio por Línea (CASIA Top-5)",
+                    ylab = "Top-5 Accuracy (%)", ylim = c(0, 115), border = "white", cex.names = 0.8)
+arrows(b_plot_lc, casia_l_stats$Mean - casia_l_stats$SD, b_plot_lc, casia_l_stats$Mean + casia_l_stats$SD, 
        angle = 90, code = 3, length = 0.05)
-text(b_plot_c, casia_stats$Mean + casia_stats$SD + 3, labels = paste0(round(casia_stats$Mean, 1), "%"), font = 2)
+text(b_plot_lc, casia_l_stats$Mean + casia_l_stats$SD + 3, labels = paste0(round(casia_l_stats$Mean, 1), "%"), font = 2, cex = 0.8)
 grid(nx = NA, ny = NULL, col = "gray", lty = "dotted")
 
 # Cerrar el dispositivo gráfico
