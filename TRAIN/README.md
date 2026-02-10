@@ -99,14 +99,13 @@ A continuación se listan los hiperparámetros utilizados en esta versión del e
 
 En la ejecución registrada en este cuaderno utilizando la arquitectura **GhostNet**, se obtuvieron los siguientes resultados:
 
-* **ID del Experimento**: `ghostnet-model-v3`
+* **ID del Experimento**: `ghostnet-model-v4`
 * **Precisión en Validación (Mejor)**: 99.54%
-* **Pérdida en Validación (Mejor)**: 0.0233
-* **Precisión en Entrenamiento (Final)**: 96.72%
-* **Precisión en Test (Final)**: 99.73%
-* **Top-5 Precisión en Test**: 100.00%
-* **Evaluación CASIA (Train Top-5)**: 93.50%
-* **Observaciones**: El modelo utiliza una arquitectura multi-head (Kanji + Componentes) sobre un backbone GhostNet. Se han utilizado los mejores hiperparámetros encontrados por Optuna para maximizar el rendimiento.
+* **Pérdida en Validación (Final)**: 0.0914
+* **Precisión en Test (Final)**: 99.54%
+* **Top-5 Precisión en Test**: 99.97%
+* **Evaluación CASIA (Test Top-5)**: 82.91%
+* **Observaciones**: El modelo utiliza una arquitectura multi-head (Kanji + Componentes) sobre un backbone GhostNet. Se han utilizado los mejores hiperparámetros encontrados por Optuna (del anterior modelo) para maximizar el rendimiento. Se observa una alta capacidad de generalización en el conjunto ETL9B y resultados competitivos en CASIA.
 
 ## Modularización (Refactorización)
 
