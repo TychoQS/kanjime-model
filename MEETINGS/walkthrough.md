@@ -150,10 +150,10 @@ Se creó la carpeta `TRAIN/modules/` con los siguientes componentes:
 |:--|:--|:--|:--|:--|:--|
 | mobilenet_v3-v4 | MobileNetV3 (Multi-Head) | 150 | 99.57% | 100.00% | 92.61% |
 | ghostnet-v3 | GhostNet (Multi-Head) | 150 | **99.73%** | 100.00% | **93.50%** |
-| **ghostnet-v4** | **GhostNet (Multi-Head)** | **3036** | **99.54%** | **99.97%** | **82.91%** |
+| **ghostnet-v4** | **GhostNet (Multi-Head)** | **2965** | **99.54%** | **99.97%** | **82.91%** |
 
 > [!TIP]
-> El modelo **ghostnet-v4** es el primer experimento con las **3036 clases completas** del ETL9B, manteniendo 99.54% de accuracy.
+> El modelo **ghostnet-v4** es el primer experimento con las **2965 clases** del ETL9B, manteniendo 99.54% de accuracy.
 
 **Commits destacados**: `27001c5`, `ccddafe`, `c754ad4`, `b64f183`
 
@@ -189,7 +189,7 @@ gantt
     Multi-Head                       :2026-02-04, 7d
 
     section Escalado
-    3036 clases (dataset completo)   :2026-02-10, 1d
+    2965 clases (dataset completo)   :2026-02-10, 1d
 ```
 
 ---
@@ -208,19 +208,4 @@ gantt
 | 8 | ghostnet-v2 | 3 Feb | **99.64%** | **91.10%** | **Post-fix DA** |
 | 9 | mobilenet_v3-v3 | 4 Feb | 99.57% | 89.55% | Confirmación post-fix |
 | 10 | ghostnet-v3 | 6 Feb | **99.73%** | **93.50%** | Multi-Head + GhostNet |
-| 11 | **ghostnet-v4** | **10 Feb** | **99.54%** | **82.91%** | **3036 clases completas** |
-
----
-
-## Puntos Clave para la Reunión
-
-1. **Se probaron 6 familias de arquitecturas** (ResNet18, MobileNetV3, MobileNetV3+FastViT, CRNN, MobileViT v2, GhostNet) buscando el mejor balance precisión/eficiencia para despliegue móvil.
-2. **Se integró Optuna** para búsqueda automática de hiperparámetros, reduciendo la intervención manual.
-3. **Se implementó Monte Carlo Dropout** para estimar incertidumbre predictiva en inferencia, tanto en test como en evaluaciones externas (CASIA).
-4. **Se diseñó un sistema de checkpoints** que permite reanudar entrenamientos interrumpidos, esencial para ejecuciones largas en Kaggle.
-5. **Se identificaron y corrigieron 2 bugs críticos**: función de evaluación que usaba el modelo incorrecto, y transformaciones de DA incompatibles con datos binarizados. Se implementaron histogramas para verificar distribuciones visualmente.
-6. **Se implementó una arquitectura Multi-Head** (cabezal dual para kanji + componentes/radicales), que mejoró la generalización especialmente en CASIA (dataset externo chino).
-7. **Se escaló exitosamente a 3036 clases** (dataset completo) manteniendo 99.54% de accuracy.
-8. **Se modularizó el código** en 12 módulos Python reutilizables con documentación.
-9. **Se estableció un protocolo de logging** con `training_log.csv` para trazabilidad completa de experimentos.
-10. **Se preparó infraestructura dual** (local/Kaggle) con flags configurables para Optuna y entorno de ejecución.
+| 11 | **ghostnet-v4** | **10 Feb** | **99.54%** | **82.91%** | **2965 clases completas** |
