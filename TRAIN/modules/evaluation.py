@@ -83,7 +83,7 @@ def predict_and_evaluate(model, folder_path, class_names, device, img_size,
             all_probs = []
             with torch.no_grad():
                 for _ in range(mc_iterations):
-                    outputs_kanji, outputs_components = model(img_tensor) 
+                    outputs_kanji, _, _ = model(img_tensor) 
                     probs = torch.nn.functional.softmax(outputs_kanji, dim=1)
                     all_probs.append(probs)
             # Meand of probs
@@ -93,7 +93,7 @@ def predict_and_evaluate(model, folder_path, class_names, device, img_size,
             model.eval()   
         else:
             with torch.no_grad():
-                outputs_kanji, outputs_components = model(img_tensor)
+                outputs_kanji, _, _ = model(img_tensor)
                 probs = torch.nn.functional.softmax(outputs_kanji, dim=1)
 
         top5_prob, top5_idx = torch.topk(probs, 5)

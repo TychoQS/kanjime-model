@@ -18,6 +18,7 @@ Este directorio contiene la lógica refactorizada del pipeline de entrenamiento,
 | `train_utils.py` | **Utilidades de Entrenamiento**: Clases auxiliares como `EarlyStopping` y configuración de optimizadores/schedulers. |
 | `transforms.py` | **Augmentation**: Definición de pipelines de transformación y Data Augmentation con `torchvision` y `albumentations`. |
 | `utils.py` | **General**: Funciones de utilidad general como configuración de semilla (`set_seed`) y detección de dispositivo. |
+| `visualization.py` | **Visualización**: Clase `TrainingPlotter` para la generación de gráficas de entrenamiento (pérdida y precisión). |
 
 ## Uso General
 

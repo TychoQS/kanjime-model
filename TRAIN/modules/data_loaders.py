@@ -51,6 +51,4 @@ def get_dataloaders_reduced(full_dataset, train_dataset_augmented, batch_size, s
     return (
         DataLoader(train_opt, batch_size=batch_size, shuffle=True, num_workers=2, pin_memory=True),
         DataLoader(val_opt, batch_size=batch_size, shuffle=False, num_workers=2, pin_memory=True),
-        len(full_dataset.classes),
-        len(full_dataset.comp_to_idx)
     )

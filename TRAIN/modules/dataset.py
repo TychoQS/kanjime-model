@@ -17,10 +17,10 @@ class ETL9Dataset(torch.utils.data.Dataset):
         self.root_dir = root_dir
         self.transform = transform
         self.samples = [] 
-        self.kanji_components = {}
+        self.kanji_structure = {}
         if json_path is not None:
             with open(json_path, 'r', encoding='utf-8') as f:
-                self.kanji_components = json.load(f)
+                self.kanji_structure = json.load(f)
         
         subfolders = sorted([f for f in os.listdir(root_dir) if f.endswith('_unpack')])
         
@@ -79,17 +79,28 @@ class ETL9Dataset(torch.utils.data.Dataset):
         self.classes = sorted(list(set([x[1] for x in self.samples])))
         self.class_to_idx = {cls_name: i for i, cls_name in enumerate(self.classes)}
 
-        # Getting only components for kanjis in the dataset
-        all_components = set()
+        # Getting only radicals for kanjis in the dataset
+        all_radicals = set()
         for kanji in self.classes:
-            if kanji in self.kanji_components:
-                all_components.update(self.kanji_components[kanji])
+            if kanji in self.kanji_structure:
+                rad = self.kanji_structure[kanji].get('radical')
+                if rad: all_radicals.add(rad)
 
-        self.comp_sorted = sorted(list(all_components))
-        self.comp_to_idx = {comp: i for i, comp in enumerate(self.comp_sorted)}
+        # Getting only stroke counts for kanjis in the dataset
+        all_stroke_counts = set()
+        for kanji in self.classes:
+            if kanji in self.kanji_structure:
+                all_stroke_counts.add(int(self.kanji_structure[kanji]['strokes']))
+        
+        self.radical_sorted = sorted(list(all_radicals))
+        self.radical_to_idx = {radical: i for i, radical in enumerate(self.radical_sorted)}
+
+        unique_strokes = sorted(list(all_stroke_counts))
+        self.stroke_to_idx = {count: i for i, count in enumerate(unique_strokes)}
         
         print(f"Dataset initialized. Images: {len(self.samples)}. Classes (Kanji): {len(self.classes)}")
-        print(f"Components found: {len(self.comp_to_idx)}")
+        print(f"Radicals found: {len(self.radical_to_idx)}")
+        print(f"Strokes (classes) found: {len(self.stroke_to_idx)}")
 
     def __len__(self):
         return len(self.samples)
@@ -98,18 +109,16 @@ class ETL9Dataset(torch.utils.data.Dataset):
         img_path, label_char = self.samples[idx]
         image = Image.open(img_path).convert('L')
         label_idx = self.class_to_idx[label_char]
+        info = self.kanji_structure.get(label_char, {})
 
-        components = torch.zeros(len(self.comp_to_idx))
-        if label_char in self.kanji_components:
-            for comp in self.kanji_components[label_char]:
-                if comp in self.comp_to_idx:
-                    comp_idx = self.comp_to_idx[comp]
-                    components[comp_idx] = 1.
-
+        radical_idx = self.radical_to_idx[info.get('radical')]
+        strokes_val = int(info.get('strokes'))
+        strokes_idx = self.stroke_to_idx.get(strokes_val)
         if self.transform:
             image = self.transform(image)
             
         return image, {
         'kanji': torch.tensor(label_idx),
-        'components': components
+        'radical': torch.tensor(radical_idx),
+        'strokes': torch.tensor(strokes_idx)  
         }
