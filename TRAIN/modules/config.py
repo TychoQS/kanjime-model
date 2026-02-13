@@ -5,8 +5,8 @@ import sys
 RANDOM_SEED = 42
 
 # Execution flags
-QUICK_TEST = False
-OPTUNA_ENABLED = False
+QUICK_TEST = True
+OPTUNA_ENABLED = True
 ON_KAGGLE = os.path.exists('/kaggle/input')
 
 # Paths
@@ -22,7 +22,7 @@ if ON_KAGGLE:
     CASIA_DATASET_TEST_PATH = "/kaggle/input/chinese-handwriting/CASIA-HWDB_Test/Test"
     FONT_PATH = '/kaggle/input/noto-sans-jp/Noto_Sans_JP/static/NotoSansJP-Regular.ttf'
     OUTPUT_DIR = '/kaggle/working/Training_Output'
-    COMPONENTS_JSON_PATH = '/kaggle/working/kanjiVG/kanji_standard.json'
+    KANJI_STRUCTURE_JSON_PATH = '/kaggle/working/kanjiVG/kanji_standard.json'
 else:
     # Local paths
     DATASET_PATH = '../DATA/etlcb/ETL9B'
@@ -31,19 +31,21 @@ else:
     CASIA_DATASET_TEST_PATH = "../DATA/chinese-handwriting/CASIA-HWDB_Test/Test"
     FONT_PATH = '../Noto_Sans_JP/static/NotoSansJP-Regular.ttf'
     OUTPUT_DIR = './Training_Output'
-    COMPONENTS_JSON_PATH = '../DATA/kanjiVG/kanji_standard.json'
+    KANJI_STRUCTURE_JSON_PATH = '../DATA/kanjiVG/kanji_standard.json'
 
 # Filenames
 MODEL_FILENAME = 'best_kanji_model.pth'
 HISTORY_FILENAME = 'training_history.json'
 CLASSES_FILENAME = 'classes.json'
-COMPONENT_CLASSES_FILENAME = 'component_classes.json'
+RADICAL_CLASSES_FILENAME = 'radical_classes.json'
+STROKE_CLASSES_FILENAME = 'stroke_classes.json'
 
 # Full file paths
 MODEL_SAVE_PATH = os.path.join(OUTPUT_DIR, MODEL_FILENAME)
 HISTORY_SAVE_PATH = os.path.join(OUTPUT_DIR, HISTORY_FILENAME)
 CLASSES_SAVE_PATH = os.path.join(OUTPUT_DIR, CLASSES_FILENAME)
-COMPONENTS_SAVE_PATH = os.path.join(OUTPUT_DIR, COMPONENT_CLASSES_FILENAME)
+RADICAL_SAVE_PATH = os.path.join(OUTPUT_DIR, RADICAL_CLASSES_FILENAME)
+STROKE_SAVE_PATH = os.path.join(OUTPUT_DIR, STROKE_CLASSES_FILENAME)
 MODEL_PATH = MODEL_SAVE_PATH
 
 # Hyperparameters
@@ -54,12 +56,12 @@ if QUICK_TEST:
     OPTUNA_TRIALS = 4
     OPTUNA_EPOCHS = 1
 else:
-    MAX_CLASSES_LIMIT = None
+    MAX_CLASSES_LIMIT = 150
     BATCH_SIZE = 128         
     NUM_EPOCHS = 30
-    OPTUNA_TRIALS = 15
-    OPTUNA_EPOCHS = 15
+    OPTUNA_TRIALS = 10
+    OPTUNA_EPOCHS = 20
 CHANEL_SIZE = 3 
-LEARNING_RATE = 0.0008189321142225859
-WEIGHT_DECAY = 3.9088599616132716e-05
+LEARNING_RATE = 0.001
+WEIGHT_DECAY = 0.0001
 IMG_SIZE = 128

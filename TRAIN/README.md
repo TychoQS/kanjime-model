@@ -14,6 +14,8 @@ El cuaderno `kanji_classificator_model_training.ipynb` (antes `train.ipynb`) imp
 | `modules/` | Carpeta | Módulos Python refactorizados del pipeline de entrenamiento. |
 | `Training_Output/` | Carpeta | Resultados del entrenamiento (modelo, historia, clases). |
 | `Training_Output/last_checkpoint.pth` | Archivo | Estado del último entrenamiento para reanudación. |
+| `Training_Output/radical_classes.json` | Archivo | Mapeo de clases de radicales. |
+| `Training_Output/stroke_classes.json` | Archivo | Mapeo de clases de número de trazos. |
 | `HSK_Training_Output/` | Carpeta | Resultados del entrenamiento HSK. |
 | `README.md` | Doc | Esta documentación. |
 
@@ -78,9 +80,10 @@ El cuaderno se estructura en las siguientes secciones lógicas:
 * **Modelo Base**: GhostNet.
 * **Cabezales (Multi-Head)**:
     * **Kanji Head**: Clasificación de los caracteres Kanji (clases principales).
-    * **Component Head**: Clasificación auxiliar de componentes/radicales para mejorar la representación interna.
+    * **Radical Head**: Clasificación auxiliar de componentes/radicales.
+    * **Stroke Head**: Clasificación auxiliar del número de trazos.
 * **Entrada**: Imágenes redimensionadas a 128x128 píxeles en 3 canales.
-* **Estrategia**: El backbone extrae features que se comparten entre ambos cabezales, forzando al modelo a aprender características estructurales (trazos/radicales) robustas.
+* **Estrategia**: El backbone extrae features que se concatenan con las predicciones de radicales y trazos para alimentar el cabezal final de Kanjis, mejorando la precisión al incorporar información estructural.
 
 ## Hiperparámetros
 
@@ -109,12 +112,7 @@ En la ejecución registrada en este cuaderno utilizando la arquitectura **GhostN
 
 ## Modularización (Refactorización)
 
-El código del cuaderno principal ha sido **refactorizado** para separar las responsabilidades en módulos independientes ubicados en la carpeta `modules/`. Esta estructura permite:
-
-- **Mejor organización**: Cada módulo tiene una responsabilidad específica.
-- **Reutilización**: Los componentes pueden importarse en otros experimentos o cuadernos.
-- **Mantenibilidad**: Cambios en una funcionalidad no afectan al resto del código.
-- **Testing**: Facilita la creación de pruebas unitarias para cada componente.
+El código del cuaderno principal ha sido **recientemente refactorizado** para profundizar en la separación de responsabilidades en módulos independientes ubicados en la carpeta `modules/`. Se han mejorado las utilidades de visualización y la robustez del bucle de entrenamiento.
 
 Los módulos principales son:
 - `dataset.py`: Gestión del dataset ETL9
@@ -123,5 +121,6 @@ Los módulos principales son:
 - `optuna.py`: Optimización de hiperparámetros
 - `transforms.py`: Transformaciones de Data Augmentation.
 - `models.py`: Definición de arquitecturas de modelos de red neuronal.
+- `visualization.py`: Generación de gráficas de entrenamiento.
 
 Para más detalles, consultar el archivo `modules/README.md`.

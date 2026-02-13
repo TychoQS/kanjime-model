@@ -47,6 +47,24 @@ def setup_training_tools(model, lr, weight_decay, factor=0.5, patience=2):
         min_lr=1e-6 # Minimum LR value
     )
     criterion_kanji = nn.CrossEntropyLoss()
-    criterion_components = nn.BCEWithLogitsLoss()
+    criterion_radicals = nn.CrossEntropyLoss()
+    criterion_strokes = nn.CrossEntropyLoss()
     
-    return optimizer, scheduler, criterion_kanji, criterion_components
+    return optimizer, scheduler, criterion_kanji, criterion_radicals, criterion_strokes
+
+
+class CurriculumManager:
+    """Manages the curriculum of the training process"""
+    def __init__(self, threshold=0.75):
+        self.threshold = threshold
+        self._is_kanji_active = False
+
+    def update(self, acc_rad, acc_str):
+        if not self._is_kanji_active:
+            if acc_rad >= self.threshold and acc_str >= self.threshold:
+                print(f"Target reached! (Rad: {acc_rad:.2f}, Str: {acc_str:.2f}). Activating Kanji learning.")
+                self._is_kanji_active = True
+        return self._is_kanji_active
+    
+    def is_kanji_active(self):
+        return self._is_kanji_active
