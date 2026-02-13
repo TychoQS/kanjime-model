@@ -55,7 +55,7 @@ def setup_training_tools(model, lr, weight_decay, factor=0.5, patience=2):
 
 class CurriculumManager:
     """Manages the curriculum of the training process"""
-    def __init__(self, threshold=0.75):
+    def __init__(self, threshold=0.9):
         self.threshold = threshold
         self._is_kanji_active = False
 
