@@ -46,7 +46,7 @@ def setup_training_tools(model, lr, weight_decay, factor=0.5, patience=2):
         patience=patience, # Wait for patience epochs before reducing LR
         min_lr=1e-6 # Minimum LR value
     )
-    criterion_kanji = nn.CrossEntropyLoss()
+    criterion_kanji = nn.CrossEntropyLoss(label_smoothing=0.1)
     criterion_radicals = nn.CrossEntropyLoss()
     criterion_strokes = nn.CrossEntropyLoss()
     

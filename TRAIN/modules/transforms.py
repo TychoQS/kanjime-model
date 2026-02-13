@@ -20,17 +20,18 @@ class MorphologicalTransform(object):
     def __init__(self, kernel_size=3, p=0.5):
         self.kernel_size = kernel_size
         self.p = p
-        self.kernel = np.ones((kernel_size, kernel_size), np.uint8)
     
     def __call__(self, img):
         img_np = np.array(img)
         
         if np.random.random() < self.p:
+            k = np.random.randint(1, self.kernel_size + 1)
+            kernel = np.ones((k, k), np.uint8)
             operation = np.random.choice(['erode', 'dilate'])
             if operation == 'erode':
-                img_np = cv2.erode(img_np, self.kernel, iterations=1)
+                img_np = cv2.erode(img_np, kernel, iterations=1)
             else:
-                img_np = cv2.dilate(img_np, self.kernel, iterations=1)
+                img_np = cv2.dilate(img_np, kernel, iterations=1)
         return Image.fromarray(img_np)
 
 def get(img_size, channel_size):

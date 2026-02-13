@@ -5,7 +5,7 @@ import sys
 RANDOM_SEED = 42
 
 # Execution flags
-QUICK_TEST = True
+QUICK_TEST = False
 OPTUNA_ENABLED = True
 ON_KAGGLE = os.path.exists('/kaggle/input')
 
@@ -65,3 +65,5 @@ CHANEL_SIZE = 3
 LEARNING_RATE = 0.001
 WEIGHT_DECAY = 0.0001
 IMG_SIZE = 128
+LAMBDA_RAD = 1.0
+LAMBDA_STR = 1.0

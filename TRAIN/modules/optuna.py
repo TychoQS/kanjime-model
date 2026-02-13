@@ -11,6 +11,8 @@ def objective(trial, get_dataloaders_fn, build_model_fn, device, optuna_epochs, 
     lr = trial.suggest_float("lr", 5e-4, 5e-3, log=True)
     batch_size = trial.suggest_categorical("batch_size", [64, 96, 128])
     weight_decay = trial.suggest_float("weight_decay", 1e-5, 1e-3, log=True)
+    lambda_rad = trial.suggest_float("lambda_rad", 0.1, 1)
+    lambda_str = trial.suggest_float("lambda_str", 0.1, 1)
     
     t_loader, v_loader = get_dataloaders_fn(batch_size=batch_size)
     trial_model = build_model_fn(n_clases, n_radicals, n_strokes)
@@ -34,7 +36,9 @@ def objective(trial, get_dataloaders_fn, build_model_fn, device, optuna_epochs, 
         early_stopping=early_stopping,
         scheduler=scheduler,
         save_data=False,  
-        verbose=False      
+        verbose=False,
+        lambda_rad=lambda_rad,
+        lambda_str=lambda_str     
     )
     
     best_val_acc = max(history['val_acc'])

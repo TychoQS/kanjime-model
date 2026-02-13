@@ -5,6 +5,7 @@ import pandas as pd
 from PIL import Image
 import os 
 import json
+from collections import Counter
 
 
 CJK_UNIFIED_START = '\u4e00'

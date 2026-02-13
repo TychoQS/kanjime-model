@@ -8,7 +8,7 @@ from modules.train_utils import CurriculumManager
 
 logger = logging.getLogger(__name__)
 
-def train_model(model, train_loader, val_loader, criterion_kanji, criterion_radicals, criterion_strokes, optimizer, num_epochs, output_dir, model_save_path, device, early_stopping, scheduler=None, start_epoch=0, best_acc=0.0, history=None, save_data=True, verbose=True):    
+def train_model(model, train_loader, val_loader, criterion_kanji, criterion_radicals, criterion_strokes, optimizer, num_epochs, output_dir, model_save_path, device, early_stopping, scheduler=None, start_epoch=0, best_acc=0.0, history=None, save_data=True, verbose=True, lambda_rad=1.0, lambda_str=1.0):    
     """Training function for the model"""
 
     curriculum_manager = CurriculumManager(threshold=0.75)
@@ -53,8 +53,7 @@ def train_model(model, train_loader, val_loader, criterion_kanji, criterion_radi
             loss_kanji = criterion_kanji(outputs_kanji, labels_kanji)
             loss_radical = criterion_radicals(outputs_radical, labels_radical)
             loss_strokes = criterion_strokes(outputs_strokes, labels_strokes)
-            loss = (loss_kanji + loss_radical + loss_strokes) if curriculum_manager.is_kanji_active() else (loss_radical + loss_strokes)
-        
+            loss = (loss_kanji + lambda_rad * loss_radical + lambda_str * loss_strokes) if curriculum_manager.is_kanji_active() else (lambda_rad * loss_radical + lambda_str * loss_strokes)        
             loss.backward() # Compute gradients
             optimizer.step() # Updates network weights based on gradients
 
@@ -95,7 +94,7 @@ def train_model(model, train_loader, val_loader, criterion_kanji, criterion_radi
                 _, preds = torch.max(out_k, 1)
                 _, preds_radical = torch.max(out_r, 1)
                 _, preds_strokes = torch.max(out_s, 1)
-                loss = (criterion_kanji(out_k, l_kanji) + criterion_radicals(out_r, l_radical) + criterion_strokes(out_s, l_strokes)) if curriculum_manager.is_kanji_active() else (criterion_radicals(out_r, l_radical) + criterion_strokes(out_s, l_strokes))
+                loss = (criterion_kanji(out_k, l_kanji) + lambda_rad * criterion_radicals(out_r, l_radical) + lambda_str * criterion_strokes(out_s, l_strokes)) if curriculum_manager.is_kanji_active() else (lambda_rad * criterion_radicals(out_r, l_radical) + lambda_str * criterion_strokes(out_s, l_strokes))
                 val_loss_val += loss.item() * inputs.size(0)
                 val_corrects += torch.sum(preds == l_kanji.data)
                 val_corrects_radical += torch.sum(preds_radical == l_radical.data)
