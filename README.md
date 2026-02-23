@@ -53,3 +53,21 @@ A medida que se añadieron transformaciones de Data Augmentation (DA) más compl
 **Impacto:**
 - **Estabilización:** Las curvas de validación pasaron de ser erráticas a seguir de cerca la tendencia de entrenamiento.
 - **Mejora en Generalización:** Los modelos entrenados tras este ajuste presentan métricas mucho más consistentes tanto en el conjunto de test propio como en evaluaciones externas (CASIA).
+
+## Versiones v5 Ausentes en el Historial de Commits (Commit c56c90e) [SOLVED]
+Los tags `ghotnet-model-v5` y `ghostnet-model-v5-log` no aparecen en el historial de commits ni en el fichero de logs debido a que estas versiones fueron subidas incorrectamente al repositorio y sus commits fueron eliminados.
+
+**Problema identificado:**
+- Las versiones etiquetadas como `ghotnet-model-v5` y `ghostnet-model-v5-log` se subieron al repositorio con errores, por lo que sus commits fueron borrados del historial.
+- Como consecuencia, dichas entradas no figuran en el fichero de logs y el historial refleja un salto directo de la versión 4 a la versión 6 en el commit `c56c90e`.
+
+**Solución aplicada:**
+- Se eliminaron los commits problemáticos asociados a las versiones v5 para mantener la integridad del repositorio.
+- El desarrollo continuó a partir de la versión 4, publicándose directamente la versión 6 con los cambios acumulados y corregidos.
+- Los tags `ghotnet-model-v5` y `ghostnet-model-v5-log` se han conservado en el repositorio para permitir el acceso a los ficheros de esas versiones si fuera necesario en algún momento.
+
+**Impacto:**
+- El historial de commits y el fichero de logs muestran un salto de v4 a v6, lo cual es esperado y no indica pérdida de funcionalidad.
+- Los resultados y el estado del repositorio a partir del commit `c56c90e` son correctos y consistentes.
+
+**Nota:** La ausencia de las entradas v5 en los logs es intencionada. Cualquier referencia a `ghotnet-model-v5` o `ghostnet-model-v5-log` debe considerarse obsoleta a efectos de seguimiento, aunque los tags permanecen accesibles en el repositorio.
