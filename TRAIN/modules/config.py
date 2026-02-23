@@ -18,8 +18,7 @@ if ON_KAGGLE:
     
     DATASET_PATH = '/kaggle/input/etl9b-dataset-full/ETL9B'
     PREDICTION_FOLDER = '/kaggle/input/tests-images/TESTS'
-    CASIA_DATASET_TRAIN_PATH = "/kaggle/input/chinese-handwriting/CASIA-HWDB_Train/Train"
-    CASIA_DATASET_TEST_PATH = "/kaggle/input/chinese-handwriting/CASIA-HWDB_Test/Test"
+    CASIA_HWDB_DATASET_SAMPLES_PATH = "/kaggle/input/chinese-handwriting/CASIA_HWDB_SAMPLES"
     FONT_PATH = '/kaggle/input/noto-sans-jp/Noto_Sans_JP/static/NotoSansJP-Regular.ttf'
     OUTPUT_DIR = '/kaggle/working/Training_Output'
     KANJI_STRUCTURE_JSON_PATH = '/kaggle/working/kanjiVG/kanji_standard.json'
@@ -27,8 +26,7 @@ else:
     # Local paths
     DATASET_PATH = '../DATA/etlcb/ETL9B'
     PREDICTION_FOLDER = '../TESTS'
-    CASIA_DATASET_TRAIN_PATH = "../DATA/chinese-handwriting/CASIA-HWDB_Train/Train"
-    CASIA_DATASET_TEST_PATH = "../DATA/chinese-handwriting/CASIA-HWDB_Test/Test"
+    CASIA_HWDB_DATASET_SAMPLES_PATH = "../DATA/chinese-handwriting/CASIA_HWDB_SAMPLES"
     FONT_PATH = '../Noto_Sans_JP/static/NotoSansJP-Regular.ttf'
     OUTPUT_DIR = './Training_Output'
     KANJI_STRUCTURE_JSON_PATH = '../DATA/kanjiVG/kanji_standard.json'
