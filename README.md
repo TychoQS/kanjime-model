@@ -12,6 +12,7 @@ Este proyecto implementa un pipeline completo de Machine Learning para clasifica
 | :--- | :--- |
 | `TRAIN/` | Entrenamiento, y modelos (`.pth`). |
 | `TESTS/` | Imágenes manuscritas externas para pruebas de inferencia. |
+| `IMAGE_PREPROCESS/` | Pipeline de preprocesamiento de imágenes. |
 | `DATA/` | Datasets (no incluido en el repositorio por tamaño). |
 | `Noto_Sans_JP/` | Fuente tipográfica para generación de datos sintéticos. |
 | `.antigravity/` | Configuración y reglas del agente de IA. |

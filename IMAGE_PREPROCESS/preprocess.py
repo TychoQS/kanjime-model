@@ -1,0 +1,43 @@
+import sys
+import os
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+from skimage.util import img_as_float
+from skimage.exposure import is_low_contrast
+
+img = cv2.imread(sys.argv[1])
+original = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+steps = [
+    (original, "1. Original"),
+    (gray,     "2. Grayscale"),
+]
+
+applied_clahe = False
+if is_low_contrast(img_as_float(gray)):
+    clahe = cv2.createCLAHE(clipLimit=3)
+    gray = clahe.apply(gray)
+    applied_clahe = True
+    steps.append((gray.copy(), "3. CLAHE"))
+
+gray = cv2.GaussianBlur(gray, (5, 5), 0)
+steps.append((gray.copy(), f"{'4' if applied_clahe else '3'}. Gaussian Blur"))
+
+_, thresholded_img = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+steps.append((thresholded_img.copy(), f"{'5' if applied_clahe else '4'}. Otsu"))
+
+fig, axes = plt.subplots(1, len(steps), figsize=(3 * len(steps), 4))
+for ax, (image, title) in zip(axes, steps):
+    ax.imshow(image, cmap=None if image.ndim == 3 else "gray")
+    ax.set_title(title, fontsize=9)
+    ax.axis("off")
+
+plt.tight_layout()
+
+os.makedirs("output", exist_ok=True)
+filename = os.path.basename(sys.argv[1])
+output_path = os.path.join("output", filename)
+plt.savefig(output_path, dpi=150, bbox_inches="tight")
+print(f"Saved: {output_path}")
