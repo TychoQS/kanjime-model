@@ -4,7 +4,7 @@ Pipeline de preprocesamiento para imágenes de caracteres Kanji, orientado a mej
 
 ## Descripción General
 
-Este directorio contiene un script de preprocesamiento que aplica una serie de transformaciones a imágenes. El pipeline incluye conversión a escala de grises, mejora de contraste adaptativa (CLAHE), suavizado gaussiano y umbralizado Otsu. Genera una imagen comparativa con todas las etapas del proceso.
+Este directorio contiene un script de preprocesamiento que aplica una serie de transformaciones a imágenes. El pipeline incluye conversión a escala de grises, mejora de contraste adaptativa (CLAHE), filtro bilateral y umbralizado Otsu. Genera una imagen comparativa con todas las etapas del proceso.
 
 ## Contenido
 

@@ -19,5 +19,5 @@ Este directorio contiene imágenes de caracteres Kanji manuscritos que sirven co
 | `7.jpeg` | Imagen | Imagen de muestra. |
 | `8.jpeg` | Imagen | Imagen de muestra. |
 | `9.jpeg` | Imagen | Imagen de muestra. |
-| `10.png` | Imagen | Imagen de muestra. |
+| `10.jpeg` | Imagen | Imagen de muestra. |
 

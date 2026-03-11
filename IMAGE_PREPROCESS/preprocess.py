@@ -5,6 +5,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from skimage.util import img_as_float
 from skimage.exposure import is_low_contrast
+from skimage.restoration import denoise_nl_means, estimate_sigma
+from skimage.util import img_as_float, img_as_ubyte
+from skimage.restoration import estimate_sigma
+from skimage.util import img_as_float
 
 img = cv2.imread(sys.argv[1])
 original = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -22,8 +26,13 @@ if is_low_contrast(img_as_float(gray)):
     applied_clahe = True
     steps.append((gray.copy(), "3. CLAHE"))
 
-gray = cv2.GaussianBlur(gray, (5, 5), 0)
-steps.append((gray.copy(), f"{'4' if applied_clahe else '3'}. Gaussian Blur"))
+sigma = estimate_sigma(img_as_float(gray))
+sigmaColor = sigma * 255
+sigmaSpace = max(5, int(min(gray.shape) * 0.01)) 
+
+gray = cv2.bilateralFilter(gray, d=9, sigmaColor=sigmaColor, sigmaSpace=sigmaSpace)
+
+steps.append((gray.copy(), f"{'4' if applied_clahe else '3'}. Bilateral Filter"))
 
 _, thresholded_img = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
 steps.append((thresholded_img.copy(), f"{'5' if applied_clahe else '4'}. Otsu"))

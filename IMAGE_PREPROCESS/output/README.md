@@ -19,5 +19,6 @@ Este directorio contiene las imágenes comparativas generadas por `preprocess.py
 | `7.jpeg` | Imagen | Comparativa de etapas para la muestra 7. |
 | `8.jpeg` | Imagen | Comparativa de etapas para la muestra 8. |
 | `9.jpeg` | Imagen | Comparativa de etapas para la muestra 9. |
+| `10.jpeg` | Imagen | Comparativa de etapas para la muestra 10. |
 
 > **Nota:** Este directorio se crea automáticamente al ejecutar el script. Los archivos aquí presentes son resultados generados y pueden regenerarse en cualquier momento o generarse nuevas entradas que no estén listadas en la documentación.
