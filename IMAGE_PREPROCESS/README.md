@@ -4,15 +4,16 @@ Pipeline de preprocesamiento para imágenes de caracteres Kanji, orientado a mej
 
 ## Descripción General
 
-Este directorio contiene un script de preprocesamiento que aplica una serie de transformaciones a imágenes. El pipeline incluye conversión a escala de grises, mejora de contraste adaptativa (CLAHE), filtro bilateral y umbralizado Otsu. Genera una imagen comparativa con todas las etapas del proceso.
+Este directorio contiene un script de preprocesamiento que aplica una serie de transformaciones a imágenes. El pipeline incluye conversión a escala de grises, mejora de contraste adaptativa (CLAHE), filtro bilateral, umbralizado Otsu y operación de cierre morfológico. Genera una imagen comparativa con todas las etapas del proceso.
 
-## Contenido
+## Tabla de Contenidos
 
 | Archivo / Directorio | Tipo | Descripción |
 | :--- | :--- | :--- |
-| `preprocess.py` | Script | Pipeline principal de preprocesamiento de imágenes. |
-| `samples/` | Carpeta | Imágenes de ejemplo para probar el pipeline. |
-| `output/` | Carpeta | Resultados generados por el script (comparativas de etapas). |
+| `custom_binarization.py` | Script | Pipeline principal de binarización y preprocesamiento (reemplaza a `preprocess.py`). |
+| `preprocess_utils.py` | Módulo | Clases de utilidad. |
+| `samples/` | Carpeta | Colección de imágenes de caracteres Kanji para pruebas. |
+| `output/` | Carpeta | Resultados del procesamiento organizados por script. |
 | `README.md` | Doc | Esta documentación. |
 
 ## Etapas del Pipeline
@@ -22,19 +23,21 @@ El script `preprocess.py` aplica las siguientes transformaciones de forma secuen
 1. **Original**: Carga de la imagen de entrada.
 2. **Escala de grises**: Conversión a un solo canal.
 3. **CLAHE** *(condicional)*: Mejora de contraste adaptativa, aplicada únicamente si la imagen se detecta como de bajo contraste.
-4. **Suavizado Gaussiano**: Reducción de ruido con kernel 5×5.
+4. **Filtrado Bilateral**: Reducción de ruido con mejor resultado en bordes.
 5. **Umbralizado Otsu**: Binarización automática con umbral óptimo.
+6. **Operación Morfológica**: Cierre morfológico para eliminar pequeños ruidos en el interior de los trazos.
 
 ## Uso
 
-```bash
-python preprocess.py <ruta_imagen>
-```
+Para procesar una imagen y generar la comparativa de etapas:
 
-El resultado se guarda en la carpeta `output/` con el mismo nombre que la imagen de entrada.
+```bash
+python custom_binarization.py <ruta_a_la_imagen>
+```
 
 **Ejemplo:**
 ```bash
-python preprocess.py samples/1.jpeg
-# → Saved: output/1.jpeg
+python custom_binarization.py samples/1.jpeg
 ```
+
+El script genera una imagen comparativa en `output/custom_binarization/` que incluye las etapas de: Grayscale, CLAHE (si es necesario), Filtro Bilateral, Otsu y Operación Morfológica.

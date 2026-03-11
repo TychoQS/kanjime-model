@@ -1,23 +1,18 @@
-# Imágenes de Ejemplo (Samples)
+# Imágenes de Muestra (Samples)
 
-Imágenes de entrada utilizadas para probar el pipeline de preprocesamiento.
+Banco de imágenes de prueba para la validación del pipeline de preprocesamiento.
 
 ## Descripción General
 
-Este directorio contiene imágenes de caracteres Kanji manuscritos que sirven como entrada de prueba para el script `preprocess.py`. Permiten verificar el correcto funcionamiento de cada etapa del pipeline.
+Contiene una colección de 10 imágenes en formato JPEG que representan diversos desafíos para la binarización: variaciones en el grosor del trazo, ruido de fondo, y diferentes niveles de contraste.
 
-## Contenido
+## Tabla de Contenidos
 
 | Archivo | Tipo | Descripción |
 | :--- | :--- | :--- |
-| `1.jpeg` | Imagen | Imagen de muestra. |
-| `2.jpeg` | Imagen | Imagen de muestra. |
-| `3.jpeg` | Imagen | Imagen de muestra. |
-| `4.jpeg` | Imagen | Imagen de muestra. |
-| `5.jpeg` | Imagen | Imagen de muestra. |
-| `6.jpeg` | Imagen | Imagen de muestra. |
-| `7.jpeg` | Imagen | Imagen de muestra. |
-| `8.jpeg` | Imagen | Imagen de muestra. |
-| `9.jpeg` | Imagen | Imagen de muestra. |
-| `10.jpeg` | Imagen | Imagen de muestra. |
+| `1.jpeg` - `10.jpeg` | Imagen | Muestras de caracteres Kanji manuscritos. |
+| `README.md` | Doc | Esta documentación. |
 
+## Uso
+
+Estas imágenes sirven como entrada para los scripts de preprocesamiento.
