@@ -10,7 +10,8 @@ Este directorio contiene un script de preprocesamiento que aplica una serie de t
 
 | Archivo / Directorio | Tipo | Descripción |
 | :--- | :--- | :--- |
-| `custom_binarization.py` | Script | Pipeline principal de binarización y preprocesamiento (reemplaza a `preprocess.py`). |
+| `custom_binarization.py` | Script | Pipeline principal de binarización (Grayscale + CLAHE + Bilateral + Otsu). |
+| `milyaev.py` | Script | Binarización propuesta en https://ieeexplore.ieee.org/abstract/document/6628598. |
 | `preprocess_utils.py` | Módulo | Clases de utilidad para el guardado de resultados con soporte para mosaicos de etapas. |
 | `samples/` | Carpeta | Colección de imágenes de caracteres Kanji para pruebas. |
 | `output/` | Carpeta | Resultados del procesamiento organizados por script. |
@@ -41,3 +42,10 @@ python custom_binarization.py samples/1.jpeg
 ```
 
 El script genera una imagen comparativa en `output/custom_binarization/` que incluye las etapas de: Grayscale, CLAHE (si es necesario), Filtro Bilateral, Otsu y Operación Morfológica.
+
+### Milyaev Binarization 
+
+El script `milyaev.py` implementa un algoritmo de binarización basado en el refinamiento por cortes de grafo:
+- **Paper**: [Binarization of Color Document Images via Graph Cuts](https://ieeexplore.ieee.org/abstract/document/6628598)
+- **Autor**: S. Milyaev, V. Lempitsky, Y. Boykov.
+- **Funcionamiento**: Utiliza una estimación local (Niblack) y el laplaciano de la imagen para construir un grafo cuya optimización de energía separa el texto del fondo de forma.
