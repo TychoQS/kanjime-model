@@ -11,7 +11,7 @@ Este directorio contiene un script de preprocesamiento que aplica una serie de t
 | Archivo / Directorio | Tipo | Descripción |
 | :--- | :--- | :--- |
 | `custom_binarization.py` | Script | Pipeline principal de binarización y preprocesamiento (reemplaza a `preprocess.py`). |
-| `preprocess_utils.py` | Módulo | Clases de utilidad. |
+| `preprocess_utils.py` | Módulo | Clases de utilidad para el guardado de resultados con soporte para mosaicos de etapas. |
 | `samples/` | Carpeta | Colección de imágenes de caracteres Kanji para pruebas. |
 | `output/` | Carpeta | Resultados del procesamiento organizados por script. |
 | `README.md` | Doc | Esta documentación. |

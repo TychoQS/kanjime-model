@@ -48,4 +48,4 @@ plt.tight_layout()
 filename = os.path.basename(sys.argv[1])
 script_name = os.path.splitext(os.path.basename(sys.argv[0]))[0]
 saver = ImageOutputSaver("output")
-saver.save_figure(filename, script_name)
+saver.save_mosaic(steps, filename, script_name)
