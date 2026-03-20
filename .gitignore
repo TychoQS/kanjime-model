@@ -13,3 +13,6 @@ DATA/
 
 # Checkpoint
 TRAIN/Training_Output/last_checkpoint.pth
+
+# Other models
+IMAGE_PREPROCESS/models/
