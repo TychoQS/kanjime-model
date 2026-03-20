@@ -1,16 +1,19 @@
 import sys, os, torch, importlib.util
 from thop import profile
 
+# Changing current path and adding to searchable modules routes
 REPO = os.path.join(os.path.dirname(__file__), '..', 'models', 'mixnet')
 os.chdir(REPO)
 sys.path.insert(0, '.')
 
+# Importing model config file
 spec = importlib.util.spec_from_file_location("config", "cfglib/config.py")
 cfg_mod = importlib.util.module_from_spec(spec)
 sys.modules["config"] = cfg_mod
 sys.modules["cfglib.config"] = cfg_mod
 spec.loader.exec_module(cfg_mod)
 
+# Configuring model
 cfg = cfg_mod.config
 cfg.resume       = False
 cfg.onlybackbone = True
@@ -21,9 +24,11 @@ cfg.test_size    = [640, 1024]
 
 from network.textnet import TextNet
 
+# Building model
 model = TextNet(backbone='FSNet_M', is_training=False)
 model.eval()
 
+# Getting parameters
 total     = sum(p.numel() for p in model.parameters())
 trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
 dummy     = torch.randn(1, 3, 640, 1024)
