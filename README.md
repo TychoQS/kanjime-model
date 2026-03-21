@@ -16,8 +16,7 @@ Este proyecto implementa un pipeline completo de Machine Learning para clasifica
 | `DATA/` | Datasets (no incluido en el repositorio por tamaño). |
 | `Noto_Sans_JP/` | Fuente tipográfica para generación de datos sintéticos. |
 | `.antigravity/` | Configuración y reglas del agente de IA. |
-| `training_log.csv` | Registro histórico de experimentos y modelos (Versionado). |
-
+| `STATS/` | Estadísticas y registros históricos de experimentos y benchmarks. |
 
 # Errores conocidos y solventados
 

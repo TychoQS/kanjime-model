@@ -45,7 +45,7 @@
    - `[FEAT]`: For new scripts/features.
    - `[DOCS]`: For documentation only.
    - `[REF]`: For bibliographic references.
-   - `[LOG]`: For updates to `training_log.csv`.
+   - `[LOG]`: For updates to `STATS/training_log.csv`.
    - `[MODIFY]`: For changes not covered by the other tags.
 
 
@@ -97,7 +97,7 @@ AFTER successfully creating a commit with the [MODEL] tag:
 # TRIGGER: User requests "Generate README".
 
 ## REFERENCE STANDARD
-- READ the file `train/README.md` first (if exists).
+- READ the file `TRAIN/README.md` first (if exists).
 - MIMIC its structure, tone, and level of detail for the target directory.
 
 ## POSTCONDITIONS
@@ -127,7 +127,7 @@ The output must be a `README.md` (in SPANISH) following the reference structure:
 ## EXCEPTIONS
 - Do NOT update README if only `.gitignore`, `.gitattributes`, or hidden files (starting with `.`) are modified.
 - Do NOT update README for the root directory unless explicitly requested.
-- Use `[LOG]` tag strictly for `training_log.csv` updates.
+- Use `[LOG]` tag strictly for `STATS/training_log.csv` updates.
 
 # 5. CONTRACT: HISTORIC PROTOCOL (LOG)
 # ------------------------------------------------------------------
@@ -135,11 +135,11 @@ The output must be a `README.md` (in SPANISH) following the reference structure:
 
 ## MANDATORY WORKFLOW
 1.  **[MODEL] Commit**: Execute the commit with the `[MODEL]` tag and its corresponding Git Tag (e.g., `v0.1-resnet`).
-2.  **Update CSV**: Register the results in `training_log.csv` (root of the project).
-3.  **[LOG] Commit**: Add `training_log.csv` and execute a new commit with the `[LOG]` tag and a NEW Git Tag following the pattern `<experiment_id>-log`.
+2.  **Update CSV**: Register the results in `STATS/training_log.csv` (inside STATS directory).
+3.  **[LOG] Commit**: Add `STATS/training_log.csv` and execute a new commit with the `[LOG]` tag and a NEW Git Tag following the pattern `<experiment_id>-log`.
 
 ## CSV STRUCTURE (snake_case columns)
-The file `training_log.csv` MUST maintain these columns strictly:
+The file `STATS/training_log.csv` MUST maintain these columns strictly:
 - `experiment_id`: (Must match Git Tag, e.g., v0.1-resnet)
 - `timestamp`: (Format YYYY-MM-DD HH:MM)
 - `architecture`: (e.g., ResNet18, MobileNetV3)

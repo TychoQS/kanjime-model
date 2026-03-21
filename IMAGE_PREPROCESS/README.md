@@ -13,8 +13,11 @@ Este directorio contiene un script de preprocesamiento que aplica una serie de t
 | `custom_binarization.py` | Script | Pipeline principal de binarización (Grayscale + CLAHE + Bilateral + Otsu). |
 | `milyaev.py` | Script | Binarización propuesta en https://ieeexplore.ieee.org/abstract/document/6628598. |
 | `preprocess_utils.py` | Módulo | Clases de utilidad para el guardado de resultados con soporte para mosaicos de etapas. |
+| `run_text_detectors_benchmark.sh` | Script | Script para la ejecución sistemática de los benchmarks de detectores. |
+| `models/` | Carpeta | Repositorios clonados de modelos de detección de texto para evaluación. |
+| `text_detectors_benchmark/` | Carpeta | Scripts para evaluar el rendimiento de los detectores de texto. |
 | `samples/` | Carpeta | Colección de imágenes de caracteres Kanji para pruebas. |
-| `output/` | Carpeta | Resultados del procesamiento organizados por script. |
+| `output/` | Carpeta | Resultados del procesamiento visual organizados por script. |
 | `README.md` | Doc | Esta documentación. |
 
 ## Etapas del Pipeline

@@ -16,3 +16,7 @@ TRAIN/Training_Output/last_checkpoint.pth
 
 # Other models
 IMAGE_PREPROCESS/models/
+!IMAGE_PREPROCESS/models/README.md
+
+# Specific samples
+IMAGE_PREPROCESS/samples/11.jpeg
