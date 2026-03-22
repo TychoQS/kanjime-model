@@ -1,6 +1,9 @@
 # Dataset (Too large to commit)
 DATA/
 
+# Ignore .idea configuration files
+.idea/
+
 # Antigravity Configuration. Ignore default folder but not certain files declared here.
 .antigravity/   
 !.antigravity/rules.md
