@@ -1,4 +1,0 @@
-model,params_M,flops_G,pth_MB,onnx_MB
-PAN++ R18,12.25,221.60,49.2,0.2
-FAST-B-736,10.58,215.99,42.4,0.2
-MixNet FSNet-M,29.46,783.24,118.2,130.4

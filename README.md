@@ -1,73 +1,73 @@
-# Kanji Recognition - Reconocimiento de Caracteres Japoneses
+# Kanji Recognition - Japanese Character Recognition
 
-Sistema de reconocimiento de caracteres Kanji manuscritos mediante Deep Learning
+Deep Learning system for handwritten Kanji character recognition.
 
-## Descripción General
+## Overview
 
-Este proyecto implementa un pipeline completo de Machine Learning para clasificar caracteres Kanji del dataset ETL9B. Incluye preprocesamiento de datos, entrenamiento con data augmentation, optimización de hiperparámetros con Optuna y evaluación con imágenes externas.
+This project implements a complete Machine Learning pipeline for classifying Kanji characters from the ETL9B dataset. It includes data preprocessing, training with data augmentation, hyperparameter optimization with Optuna, and evaluation with external images.
 
-## Estructura del Repositorio
+## Repository Structure
 
-| Directorio | Descripción |
+| Directory | Description |
 | :--- | :--- |
-| `TRAIN/` | Entrenamiento, y modelos (`.pth`). |
-| `TESTS/` | Imágenes manuscritas externas para pruebas de inferencia. |
-| `IMAGE_PREPROCESS/` | Pipeline de preprocesamiento de imágenes. |
-| `DATA/` | Datasets (no incluido en el repositorio por tamaño). |
-| `Noto_Sans_JP/` | Fuente tipográfica para generación de datos sintéticos. |
-| `.antigravity/` | Configuración y reglas del agente de IA. |
-| `STATS/` | Estadísticas y registros históricos de experimentos y benchmarks. |
+| `training/` | Model training notebooks, modules, and outputs (`.pth`). |
+| `inference_samples/` | External handwritten images for inference testing. |
+| `image_preprocess/` | Image preprocessing pipeline. |
+| `data/` | Datasets (not included in the repository due to size). |
+| `resources/` | External resources (fonts, etc.). |
+| `stats/` | Historical statistics and experiment records. |
+| `.antigravity/` | AI agent configuration and rules used for documentation. |
 
-# Errores conocidos y solventados
+# Known Issues and Fixes
 
-## Discrepancia en Accuracy de Test (Commit 6216312) [SOLVED]
-Los resultados de test reportados en commits anteriores a `6216312` pueden diferir de los valores mostrados en los notebooks debido a un error en la evaluación.
+## Test Accuracy Discrepancy (Commit 6216312) [SOLVED]
+Test results reported in commits prior to `6216312` may differ from the values shown in the notebooks due to an evaluation error.
 
-**Problema identificado:**
-- La función `train_model()` y `train_kaggle()` devolvía el modelo de la **última época** en lugar del **mejor modelo** guardado en disco.
-- Las evaluaciones en test se realizaban sobre el modelo incorrecto, causando variaciones en accuracy de ±2-4%.
+**Problem identified:**
+- The `train_model()` and `train_kaggle()` functions returned the model from the **last epoch** instead of the **best model** saved to disk.
+- Test evaluations were performed on the wrong model, causing accuracy variations of ±2-4%.
 
-**Solución aplicada:**
-- Modificadas `train_model()` y `train_kaggle()` para cargar y devolver el mejor modelo automáticamente.
-- Todas las evaluaciones posteriores usan el modelo con mejor validation accuracy.
+**Solution applied:**
+- Modified `train_model()` and `train_kaggle()` to automatically load and return the best model.
+- All subsequent evaluations use the model with the best validation accuracy.
 
-**Impacto:**
-- Resultados pre-fix: Test accuracy variable (ej: 90-94%).
-- Resultados post-fix: Test accuracy estable y reproducible (ej: 92.4%).
+**Impact:**
+- Pre-fix results: Variable test accuracy (e.g., 90-94%).
+- Post-fix results: Stable and reproducible test accuracy (e.g., 92.4%).
 
-**Nota:** Este problema afecta únicamente a los resultados de test. Los resultados de evaluación con otros datasets no se ven afectados ya que cargaban el modelo antes de evaluar.
+**Note:** This issue only affects test results. Evaluation results with other datasets were not affected since they loaded the model before evaluating.
 
-## Inestabilidad en Curvas de Validación y Overfitting (Commit 3444174) [SOLVED]
-A medida que se añadieron transformaciones de Data Augmentation (DA) más complejas, las curvas de validación empezaron a mostrar un comportamiento muy errático y una brecha creciente respecto a la curva de entrenamiento (overfitting).
+## Validation Curve Instability and Overfitting (Commit 3444174) [SOLVED]
+As more complex Data Augmentation (DA) transformations were added, validation curves began showing erratic behavior and a growing gap relative to the training curve (overfitting).
 
-**Problema identificado:**
-- En los primeros modelos simples el entrenamiento era estable, pero al introducir `Erode`, `Dilate` y `Elastic` de forma agresiva, la validación se volvió inestable.
-- Se descubrió que ciertas transformaciones estaban alterando las distribuciones de los caracteres de tal manera que el modelo aprendía artefactos irrelevantes para el dataset ETL9B (que es binarizado).
+**Problem identified:**
+- In early simple models, training was stable, but after introducing `Erode`, `Dilate`, and `Elastic` aggressively, validation became unstable.
+- Certain transformations were altering character distributions in ways that caused the model to learn irrelevant artifacts for the ETL9B dataset (which is binarized).
 
-**Solución aplicada:**
-- Se identificaron y eliminaron explícitamente las transformaciones que generaban mayor ruido en el dominio binario y alejaban la distribución de validación de la de entrenamiento:
-    - `ColorJitter` (Incompatible con la naturaleza binarizada del dataset).
-    - `GaussianNoise` (Generaba distribuciones de píxeles inconsistentes con el fondo limpio).
-- Se ajustaron los parámetros de `ElasticTransform` para ser menos agresivos.
+**Solution applied:**
+- Explicitly identified and removed transformations that generated the most noise in the binary domain and shifted the validation distribution away from training:
+    - `ColorJitter` (Incompatible with the binarized nature of the dataset).
+    - `GaussianNoise` (Generated pixel distributions inconsistent with the clean background).
+- Adjusted `ElasticTransform` parameters to be less aggressive.
 
-**Impacto:**
-- **Estabilización:** Las curvas de validación pasaron de ser erráticas a seguir de cerca la tendencia de entrenamiento.
-- **Mejora en Generalización:** Los modelos entrenados tras este ajuste presentan métricas mucho más consistentes tanto en el conjunto de test propio como en evaluaciones externas (CASIA).
+**Impact:**
+- **Stabilization:** Validation curves went from erratic to closely tracking training trends.
+- **Improved Generalization:** Models trained after this adjustment show much more consistent metrics on both the proprietary test set and external evaluations (CASIA).
 
-## Versiones v5 Ausentes en el Historial de Commits (Commit c56c90e) [SOLVED]
-Los tags `ghotnet-model-v5` y `ghostnet-model-v5-log` no aparecen en el historial de commits ni en el fichero de logs debido a que estas versiones fueron subidas incorrectamente al repositorio y sus commits fueron eliminados.
+## Missing v5 Versions in Commit History (Commit c56c90e) [SOLVED]
+The tags `ghotnet-model-v5` and `ghostnet-model-v5-log` do not appear in the commit history or log file because these versions were incorrectly uploaded to the repository and their commits were deleted.
 
-**Problema identificado:**
-- Las versiones etiquetadas como `ghotnet-model-v5` y `ghostnet-model-v5-log` se subieron al repositorio con errores, por lo que sus commits fueron borrados del historial.
-- Como consecuencia, dichas entradas no figuran en el fichero de logs y el historial refleja un salto directo de la versión 4 a la versión 6 en el commit `c56c90e`.
+**Problem identified:**
+- The versions tagged as `ghotnet-model-v5` and `ghostnet-model-v5-log` were uploaded to the repository with errors, so their commits were removed from history.
+- As a consequence, these entries do not appear in the log file and the history shows a direct jump from version 4 to version 6 at commit `c56c90e`.
 
-**Solución aplicada:**
-- Se eliminaron los commits problemáticos asociados a las versiones v5 para mantener la integridad del repositorio.
-- El desarrollo continuó a partir de la versión 4, publicándose directamente la versión 6 con los cambios acumulados y corregidos.
-- Los tags `ghotnet-model-v5` y `ghostnet-model-v5-log` se han conservado en el repositorio para permitir el acceso a los ficheros de esas versiones si fuera necesario en algún momento.
+**Solution applied:**
+- The problematic commits associated with v5 versions were deleted to maintain repository integrity.
+- Development continued from version 4, with version 6 published directly containing the accumulated and corrected changes.
+- The tags `ghotnet-model-v5` and `ghostnet-model-v5-log` have been preserved in the repository to allow access to those version files if needed.
 
-**Impacto:**
-- El historial de commits y el fichero de logs muestran un salto de v4 a v6, lo cual es esperado y no indica pérdida de funcionalidad.
-- Los resultados y el estado del repositorio a partir del commit `c56c90e` son correctos y consistentes.
+**Impact:**
+- The commit history and log file show a jump from v4 to v6, which is expected and does not indicate any loss of functionality.
+- The results and repository state from commit `c56c90e` onwards are correct and consistent.
 
-**Nota:** La ausencia de las entradas v5 en los logs es intencionada. Cualquier referencia a `ghotnet-model-v5` o `ghostnet-model-v5-log` debe considerarse obsoleta a efectos de seguimiento, aunque los tags permanecen accesibles en el repositorio.
+**Note:** The absence of v5 entries in the logs is intentional. Any reference to `ghotnet-model-v5` or `ghostnet-model-v5-log` should be considered obsolete for tracking purposes, although the tags remain accessible in the repository.

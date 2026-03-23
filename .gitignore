@@ -1,5 +1,5 @@
 # Dataset (Too large to commit)
-DATA/
+data/
 
 # Ignore .idea configuration files
 .idea/
@@ -15,11 +15,11 @@ DATA/
 *$py.class
 
 # Checkpoint
-TRAIN/Training_Output/last_checkpoint.pth
+training/training_output/last_checkpoint.pth
 
 # Other models
-IMAGE_PREPROCESS/models/
-!IMAGE_PREPROCESS/models/README.md
+image_preprocess/models/
+!image_preprocess/models/README.md
 
 # Specific samples
-IMAGE_PREPROCESS/samples/11.jpeg
+image_preprocess/samples/11.jpeg

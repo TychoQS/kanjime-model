@@ -1,0 +1,1 @@
+{"train_loss": [0.5927929566867316], "train_acc": [0.22885572139303484], "train_radical_acc": [1.0], "train_stroke_acc": [0.6529850746268657], "val_loss": [0.3360172212123871], "val_acc": [0.21], "val_radical_acc": [1.0], "val_stroke_acc": [0.8]}

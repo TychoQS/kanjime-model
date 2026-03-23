@@ -1,30 +1,30 @@
-# Configuración del Agente
+# Agent Configuration
 
-Directorio que contiene archivos de configuración para el agente de IA (Antigravity/Gemini).
+Directory containing configuration files for the AI agent (Antigravity/Gemini).
 
-## Descripción General
+## General Description
 
-Este directorio almacena las reglas y contratos que definen el comportamiento del agente al interactuar con el repositorio. Permite estandarizar commits, documentación y flujos de trabajo.
+This directory stores the rules and contracts that define the agent's behavior when interacting with the repository. It allows for standardizing commits, documentation, and workflows.
 
-## Contenido
+## Contents
 
-| Archivo | Tipo | Descripción |
+| File | Type | Description |
 | :--- | :--- | :--- |
-| `rules.md` | Configuración | Contrato de reglas para commits y documentación. |
+| `rules.md` | Configuration | Contract of rules for commits and documentation. |
 
-## Reglas Definidas
+## Defined Rules
 
-El archivo `rules.md` establece:
+The `rules.md` file establishes:
 
-1. **Formato de Commits**: Etiquetas semánticas (`[MODEL]`, `[ARCH]`, `[DOCS]`, etc.).
-2. **Auto-Tagging**: Creación automática de tags Git para commits de modelos.
-3. **Idioma Híbrido**: Código en inglés, documentación en español.
-4. **Estándar de READMEs**: Estructura basada en `TRAIN/README.md`.
+1. **Commit Format**: Semantic tags (`[MODEL]`, `[ARCH]`, `[DOCS]`, etc.).
+2. **Auto-Tagging**: Automatic creation of Git tags for model commits.
+3. **Language**: All repository content (code, documentation, READMEs) must be in **ENGLISH**.
+4. **README Standard**: Structure based on `training/README.md`.
 
-## Uso
+## Usage
 
-El agente lee automáticamente estas reglas al iniciar una sesión (si se configura en `.gemini/rules.md`) o puede referenciarse manualmente:
+The agent automatically reads these rules when starting a session (if configured in `.gemini/rules.md`) or can be referenced manually:
 
 ```
-Lee las reglas en .antigravity/rules.md y síguelas.
+Read the rules in .antigravity/rules.md and follow them.
 ```
