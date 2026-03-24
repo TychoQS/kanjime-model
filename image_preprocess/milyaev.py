@@ -28,7 +28,11 @@ def milyaev_binarize(img):
     bilateral = cv2.bilateralFilter(gray, d=9, sigmaColor=sigmaColor, sigmaSpace=sigmaSpace)
 
     # Step 1 Apply niblack with small window
-    niblack_threshold = threshold_niblack(bilateral, 5)
+    H, W = gray.shape
+    window_size = int(min(H, W) * 0.4)
+    if window_size % 2 == 0:
+        window_size += 1
+    niblack_threshold = threshold_niblack(bilateral, window_size)
     niblack_boolean_mask = bilateral > niblack_threshold
     niblack = (niblack_boolean_mask * 255)
 
