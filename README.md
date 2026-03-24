@@ -13,6 +13,7 @@ This project implements a complete Machine Learning pipeline for classifying Kan
 | `training/` | Model training notebooks, modules, and outputs (`.pth`). |
 | `inference_samples/` | External handwritten images for inference testing. |
 | `image_preprocess/` | Image preprocessing pipeline. |
+| `text_detection/` | Text detection methods and benchmarks. |
 | `data/` | Datasets (not included in the repository due to size). |
 | `resources/` | External resources (fonts, etc.). |
 | `stats/` | Historical statistics and experiment records. |
