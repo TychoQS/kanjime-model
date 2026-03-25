@@ -11,6 +11,14 @@ Results are automatically organized into subdirectories named after the generati
 | Directory | Type | Description |
 | :--- | :--- | :--- |
 | `README.md` | Doc | This documentation. |
+| `custom_binarization_niblack_bilateral/` | Dir | Custom binarization outputs (Niblack with bilateral filter). |
+| `custom_binarization_niblack_nlmeansdenoising/` | Dir | Custom binarization outputs (Niblack with NLMeans denoising). |
+| `custom_binarization_otsu_bilateral/` | Dir | Custom binarization outputs (Otsu with bilateral filter). |
+| `custom_binarization_otsu_nlmeansdenoising/` | Dir | Custom binarization outputs (Otsu with NLMeans denoising). |
+| `custom_binarization_sauvola_bilateral/` | Dir | Custom binarization outputs (Sauvola with bilateral filter). |
+| `custom_binarization_sauvola_nlmeansdenoising/` | Dir | Custom binarization outputs (Sauvola with NLMeans denoising). |
+| `milyaev_bilateral/` | Dir | Milyaev script outputs (bilateral filter). |
+| `milyaev_nlmeansdenoising/` | Dir | Milyaev script outputs (NLMeans denoising). |
 
 ## Usage
 

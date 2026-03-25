@@ -3,7 +3,7 @@ import sys
 import cv2
 import matplotlib.pyplot as plt
 from skimage.filters import threshold_niblack
-from skimage.restoration import denoise_nl_means, estimate_sigma
+from skimage.restoration import estimate_sigma
 from skimage.util import img_as_float
 import numpy as np
 import maxflow
@@ -14,7 +14,7 @@ def compute_weights(diff, spatial_dist, lambda_, sigma_g, sigma_c):
     return lambda_ * np.exp(-spatial_dist/(2*sigma_g**2) - diff/(2*sigma_c**2))
 
 
-def milyaev_binarize(img):
+def milyaev_binarize(img, use_nlm=False):
     """
         Implements the binarization algorithm proposed in https://ieeexplore.ieee.org/abstract/document/6628598
     """
@@ -22,25 +22,32 @@ def milyaev_binarize(img):
     # Cleaning image and converting to grayscale
     original = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    sigma = estimate_sigma(img_as_float(gray))
-    sigmaColor = sigma * 255
-    sigmaSpace = max(5, int(min(gray.shape) * 0.01))
-    bilateral = cv2.bilateralFilter(gray, d=9, sigmaColor=sigmaColor, sigmaSpace=sigmaSpace)
+    H, W = gray.shape
+    s = estimate_sigma(gray) * 255
+    
+    # Toggle between NLM and Bilateral
+    if use_nlm:
+        filtered_image = cv2.fastNlMeansDenoising(gray, h=s)
+        filter_label = "3. NLM Denoising"
+    else:
+        sigmaColor = s * 255
+        sigmaSpace = max(5, int(min(gray.shape) * 0.01))
+        filtered_image = cv2.bilateralFilter(gray, d=9, sigmaColor=sigmaColor, sigmaSpace=sigmaSpace)
+        filter_label = "3. Bilateral Filter"
 
     # Step 1 Apply niblack with small window
-    H, W = gray.shape
-    window_size = int(min(H, W) * 0.4)
+    window_size = int(min(H, W) * 0.2)
     if window_size % 2 == 0:
         window_size += 1
-    niblack_threshold = threshold_niblack(bilateral, window_size)
-    niblack_boolean_mask = bilateral > niblack_threshold
+    niblack_threshold = threshold_niblack(filtered_image, window_size)
+    niblack_boolean_mask = filtered_image > niblack_threshold
     niblack = (niblack_boolean_mask * 255)
 
     # Step 2 Apply the normalization of absolute value of the image's laplacian
-    laplacian = cv2.Laplacian(bilateral, cv2.CV_64F)
+    laplacian = cv2.Laplacian(filtered_image, cv2.CV_64F)
     norm_lap = cv2.normalize(abs(laplacian), None, 0, 255, cv2.NORM_MINMAX)
 
-    def run_graph_cut(bilateral_input, img_input, mask):
+    def run_graph_cut(filter_input, img_input, mask):
         # Step 3 Energy function optimization
         # e_local term
         norm_lap_max_value = norm_lap/255.0
@@ -86,7 +93,7 @@ def milyaev_binarize(img):
                                 ])
         
         # Fixing dimensions for graph
-        h, w = bilateral_input.shape
+        h, w = filter_input.shape
         # Horizontal
         weights_h_full = np.zeros((h, w))
         weights_h_full[:, :-1] = weights_h
@@ -120,19 +127,19 @@ def milyaev_binarize(img):
         return graph.get_grid_segments(nodeids).astype(np.uint8) * 255 # Getting the segments False -> Source (Background), True -> Sink (Text)
 
     # Run for dark text on light background
-    result_normal = run_graph_cut(bilateral, img, niblack_boolean_mask)
+    result_normal = run_graph_cut(filtered_image, img, niblack_boolean_mask)
 
     # Run for light text on dark background (inverted)
-    bilateral_inv = 255 - bilateral
-    niblack_threshold_inv = threshold_niblack(bilateral_inv, 5)
-    niblack_boolean_mask_inv = bilateral_inv > niblack_threshold_inv
+    filter_inv = 255 - filtered_image
+    niblack_threshold_inv = threshold_niblack(filter_inv, 5)
+    niblack_boolean_mask_inv = filter_inv > niblack_threshold_inv
     niblack_inv = (niblack_boolean_mask_inv * 255)
-    result_inverted = run_graph_cut(bilateral_inv, 255 - img, niblack_boolean_mask_inv)
+    result_inverted = run_graph_cut(filter_inv, 255 - img, niblack_boolean_mask_inv)
 
     steps = [
         (original, "1. Original"),
         (gray, "2. Grayscale"),
-        (bilateral, "3. Bilateral"),
+        (filtered_image, filter_label),
         (niblack, "4a. Niblack"),
         (niblack_inv, "4b. Niblack (inverted)"),
         (norm_lap, "5. Laplacian"),
@@ -144,11 +151,18 @@ def milyaev_binarize(img):
 
 
 if __name__ == "__main__":
-    img = cv2.imread(sys.argv[1])
+    img_path = sys.argv[1]
+    # Check flag for NLM
+    use_nlm = "-nlm" in [arg.lower() for arg in sys.argv]
+    
+    img = cv2.imread(img_path)
+    _, _, steps = milyaev_binarize(img, use_nlm=use_nlm)
 
-    _, _, steps = milyaev_binarize(img)
-
-    filename = os.path.basename(sys.argv[1])
-    script_name = os.path.splitext(os.path.basename(sys.argv[0]))[0]
+    filename = os.path.basename(img_path)
+    script_name_base = os.path.splitext(os.path.basename(sys.argv[0]))[0]
+    # Suffix with underscore as requested
+    suffix = "_nlmeansdenoising" if use_nlm else "_bilateral"
+    script_name = f"{script_name_base}{suffix}"
+    
     saver = ImageOutputSaver("output")
     saver.save_mosaic(steps, filename, script_name)
