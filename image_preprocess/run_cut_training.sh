@@ -22,3 +22,6 @@ conda run -n TFG-Cut python ./models/CUT/train.py \
   --direction AtoB \
   --display_id 0 \
   2>&1 | tee ./output/cut_training/$MODEL_NAME/training_log.txt
+
+# Generate training plot and CSV
+conda run -n TFG-Cut python ./utils/plot_cut_training_log.py --log_dir "$OUT_DIR" --model_name "$MODEL_NAME"

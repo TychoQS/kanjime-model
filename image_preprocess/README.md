@@ -13,9 +13,11 @@ This directory contains preprocessing scripts that apply a series of transformat
 | `custom_binarization.py` | Script | Main binarization pipeline (Grayscale + CLAHE + Bilateral + Otsu). |
 | `milyaev.py` | Script | Binarization proposed in https://ieeexplore.ieee.org/abstract/document/6628598. |
 | `preprocess_utils.py` | Module | Utility classes for saving results with stage mosaic support. |
+| `run_cut_training.sh` | Script | Automates CUT model training and post-training log plotting. |
 | `models/` | Directory | Cloned repository of preprocessing models. |
 | `samples/` | Directory | Collection of Kanji character images for testing. |
 | `output/` | Directory | Organized visual processing results by script. |
+| `utils/` | Directory | Utility scripts. |
 | `README.md` | Doc | This documentation. |
 
 ## Pipeline Stages
