@@ -7,7 +7,7 @@ from skimage.util import img_as_float
 from skimage.exposure import is_low_contrast
 from skimage.restoration import estimate_sigma
 from skimage.filters import threshold_niblack, threshold_sauvola
-from preprocess_utils import ImageOutputSaver
+from utils.preprocess_utils import ImageOutputSaver
 
 img = cv2.imread(sys.argv[1])
 original = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)

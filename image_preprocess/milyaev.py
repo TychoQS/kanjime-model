@@ -7,7 +7,7 @@ from skimage.restoration import estimate_sigma
 from skimage.util import img_as_float
 import numpy as np
 import maxflow
-from preprocess_utils import ImageOutputSaver
+from utils.preprocess_utils import ImageOutputSaver
 
 
 def compute_weights(diff, spatial_dist, lambda_, sigma_g, sigma_c):
