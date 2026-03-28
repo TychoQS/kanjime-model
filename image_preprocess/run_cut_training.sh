@@ -18,6 +18,7 @@ conda run -n TFG-Cut python ./models/CUT/train.py \
   --batch_size 2 \
   --load_size 128 \
   --crop_size 128 \
+  --max_dataset_size 5000 \
   --direction AtoB \
   --display_id 0 \
   2>&1 | tee ./output/cut_training/$MODEL_NAME/training_log.txt
