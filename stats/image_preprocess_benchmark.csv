@@ -1,0 +1,12 @@
+pipeline_name,top5_count,total,percentage
+baseline_otsu,483,708,68.22
+custom_binarization_otsu_bilateral,192,708,27.12
+custom_binarization_otsu_nlm,111,708,15.68
+custom_binarization_niblack_bilateral,171,708,24.15
+custom_binarization_niblack_nlm,107,708,15.11
+custom_binarization_sauvola_bilateral,139,708,19.63
+custom_binarization_sauvola_nlm,57,708,8.05
+milyaev_bilateral,509,708,71.89
+milyaev_nlm,243,708,34.32
+cut_model,105,708,14.83
+nst_model,1,708,0.14
