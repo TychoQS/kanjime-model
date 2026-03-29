@@ -21,10 +21,11 @@ Results are automatically organized into subdirectories named after the generati
 | `cut_preprocess/` | Dir | CUT model image preprocessing outputs. |
 | `milyaev_bilateral/` | Dir | Milyaev script outputs (bilateral filter). |
 | `milyaev_nlmeansdenoising/` | Dir | Milyaev script outputs (NLMeans denoising). |
+| `pytorch_examples_nst_training` | Dir | Neural Style Transfer training outputs. |
 
 ## Usage
 
-This directory is used for visual verification of algorithms and models. To generate new results, run any of the scripts from the parent directory pointing to an image in `samples/`.
+This directory is used for visual verification of algorithms and for storing trained models. To generate new results, run any of the scripts from the parent directory pointing to an image in `samples/`.
 
 ## Disclaimer
 

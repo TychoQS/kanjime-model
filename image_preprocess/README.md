@@ -12,6 +12,7 @@ This directory contains preprocessing scripts that apply a series of transformat
 | :--- | :--- | :--- |
 | `custom_binarization.py` | Script | Main binarization pipeline (Grayscale + CLAHE + Bilateral + Otsu). |
 | `cut_preprocess.py` | Script | Applies CUT generator to transform scene text to clean handwriting domain. |
+| `nst_preprocess.py` | Script | Applies Neural Style Transfer (NST) model to transfer Kanji images in natural scenes to the model's input domain. |
 | `milyaev.py` | Script | Binarization proposed in https://ieeexplore.ieee.org/abstract/document/6628598. |
 | `run_cut_training.sh` | Script | Automates CUT model training and post-training log plotting. |
 | `models/` | Directory | Cloned repository of preprocessing models. |
@@ -83,4 +84,22 @@ python cut_preprocess.py <path_to_image>
 **Example:**
 ```bash
 python cut_preprocess.py samples/1.jpeg
+```
+## NST
+The `nst_preprocess.py` script applies a Neural Style Transfer model to translate Kanji images in natural scenes to the model's input domain.
+- **Paper**: [Perceptual Losses for Real-Time Style Transfer and Super-Resolution](https://arxiv.org/abs/1603.08155)
+- **Authors**: Justin Johnson, Alexandre Alahi, Li Fei-Fei.
+- **How it works**: Uses a pre-trained Generator (TransformerNet) from the PyTorch examples to transform images from the scene text domain to the target writing domain.
+
+### Usage
+
+To process an image using the NST model:
+
+```bash
+python nst_preprocess.py <path_to_image>
+```
+
+**Example:**
+```bash
+python nst_preprocess.py samples/1.jpeg
 ```
