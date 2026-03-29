@@ -103,3 +103,7 @@ python nst_preprocess.py <path_to_image>
 ```bash
 python nst_preprocess.py samples/1.jpeg
 ```
+
+### Note
+Due to hardware incompatibilities (CUDA version didn't support the used libraries of the pytorch example and an exception was constantly being thrown), the model used for NST was trained using Kaggle. The training script execution command is trivial and can
+be consulted the syntax in the commit version of the cited repository.

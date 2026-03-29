@@ -4,7 +4,7 @@
 
 This directory contains the repositories of models used for image preprocessing. These subdirectories are ignored by git to keep the repository size manageable, but their metadata is documented here for replication.
 
-## Table of Models
+## Table of Contents
 
 | Directory | Type | Description | Source Repository |
 | :--- | :--- | :--- | :--- |
