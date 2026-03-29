@@ -17,9 +17,15 @@ Results are automatically organized into subdirectories named after the generati
 | `custom_binarization_otsu_nlmeansdenoising/` | Dir | Custom binarization outputs (Otsu with NLMeans denoising). |
 | `custom_binarization_sauvola_bilateral/` | Dir | Custom binarization outputs (Sauvola with bilateral filter). |
 | `custom_binarization_sauvola_nlmeansdenoising/` | Dir | Custom binarization outputs (Sauvola with NLMeans denoising). |
+| `cut_training/` | Dir | CUT model training outputs. |
+| `cut_preprocess/` | Dir | CUT model image preprocessing outputs. |
 | `milyaev_bilateral/` | Dir | Milyaev script outputs (bilateral filter). |
 | `milyaev_nlmeansdenoising/` | Dir | Milyaev script outputs (NLMeans denoising). |
 
 ## Usage
 
-This directory is used for visual verification of algorithms. To generate new results, run any of the scripts from the parent directory pointing to an image in `samples/`.
+This directory is used for visual verification of algorithms and models. To generate new results, run any of the scripts from the parent directory pointing to an image in `samples/`.
+
+## Disclaimer
+
+In any case the subdirectories of this directory are not intended to have README files.
