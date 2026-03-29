@@ -25,7 +25,6 @@ text_detection/models/
 
 # Some trainig output
 image_preprocess/output/**/*.pth
-image_preprocess/output/**/*.png
 
 # Specific samples
 image_preprocess/samples/11.jpeg
