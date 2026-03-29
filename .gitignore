@@ -18,7 +18,7 @@ data/
 training/training_output/last_checkpoint.pth
 
 # Other models
-image_preprocess/models/
+image_preprocess/models/*
 !image_preprocess/models/README.md
 text_detection/models/
 !text_detection/models/README.md
