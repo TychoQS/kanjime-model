@@ -23,6 +23,7 @@ from custom_binarization import custom_binarize
 from milyaev import milyaev_binarize
 from cut_preprocess import cut_preprocess as cut_preprocess_fn, load_cut_generator
 from nst_preprocess import nst_preprocess as nst_preprocess_fn, load_nst_model
+from unet_preprocess import unet_preprocess as unet_preprocess_fn, load_unet_model, UNET_MODEL_PATH
 
 # Setting paths
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -212,6 +213,15 @@ def get_pipelines(device):
             print(f"WARNING: NST model not found at {NST_MODEL_PATH}, skipping.")
     except Exception as e:
         print(f"WARNING: Could not load NST model, skipping: {e}")
+
+    try:
+        if os.path.exists(UNET_MODEL_PATH):
+            unet_model = load_unet_model(UNET_MODEL_PATH, device)
+            pipelines["unet_model"] = lambda img: unet_preprocess_fn(img, unet_model, device)[0]
+        else:
+            print(f"WARNING: UNet model not found at {UNET_MODEL_PATH}, skipping.")
+    except Exception as e:
+        print(f"WARNING: Could not load UNet model, skipping: {e}")
 
     return pipelines
 
