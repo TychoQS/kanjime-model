@@ -8,18 +8,19 @@ This directory contains preprocessing scripts that apply a series of transformat
 
 ## Table of Contents
 
-| File / Directory | Type | Description |
-| :--- | :--- | :--- |
-| `custom_binarization.py` | Script | Main binarization pipeline (Grayscale + CLAHE + Bilateral + Otsu). |
-| `cut_preprocess.py` | Script | Applies CUT generator to transform scene text to clean handwriting domain. |
-| `nst_preprocess.py` | Script | Applies Neural Style Transfer (NST) model to transfer Kanji images in natural scenes to the model's input domain. |
-| `milyaev.py` | Script | Binarization proposed in https://ieeexplore.ieee.org/abstract/document/6628598. |
-| `run_cut_training.sh` | Script | Automates CUT model training and post-training log plotting. |
-| `models/` | Directory | Cloned repository of preprocessing models. |
-| `samples/` | Directory | Collection of Kanji character images for testing. |
-| `output/` | Directory | Organized visual processing results by script. |
-| `utils/` | Directory | Utility scripts. |
-| `README.md` | Doc | This documentation. |
+| File / Directory         | Type | Description                                                                                                       |
+|:-------------------------| :--- |:------------------------------------------------------------------------------------------------------------------|
+| `custom_binarization.py` | Script | Main binarization pipeline (Grayscale + CLAHE + Bilateral + Otsu).                                                |
+| `cut_preprocess.py`      | Script | Applies CUT generator to transform scene text to clean handwriting domain.                                        |
+| `nst_preprocess.py`      | Script | Applies Neural Style Transfer (NST) model to transfer Kanji images in natural scenes to the model's input domain. |
+| `milyaev.py`             | Script | Binarization proposed in https://ieeexplore.ieee.org/abstract/document/6628598.                                   |
+| `run_cut_training.sh`    | Script | Automates CUT model training and post-training log plotting.                                                      |
+| `models/`                | Directory | Cloned repository of preprocessing models.                                                                        |
+| `samples/`               | Directory | Collection of Kanji character images for testing.                                                                 |
+| `output/`                | Directory | Organized visual processing results by script.                                                                    |
+| `utils/`                 | Directory | Utility scripts.                                                                                                  |
+| `training/`              | Directory | Own trainings for image preprocessing models.                                                                                                    |
+| `README.md`              | Doc | This documentation.                                                                                               |
 
 ## Custom Binarization
 

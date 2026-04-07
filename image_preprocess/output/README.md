@@ -22,6 +22,7 @@ Results are automatically organized into subdirectories named after the generati
 | `milyaev_bilateral/` | Dir | Milyaev script outputs (bilateral filter). |
 | `milyaev_nlmeansdenoising/` | Dir | Milyaev script outputs (NLMeans denoising). |
 | `pytorch_examples_nst_training` | Dir | Neural Style Transfer training outputs. |
+| `u-net_training/` | Dir | U-Net model training outputs. |
 
 ## Usage
 
