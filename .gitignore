@@ -1,5 +1,6 @@
 # Dataset (Too large to commit)
 data/
+!data/README.md
 
 # Ignore .idea configuration files
 .idea/
