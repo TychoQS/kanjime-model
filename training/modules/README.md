@@ -1,31 +1,31 @@
-# Modules Documentation (training/modules)
+# Modules Documentation
 
-This directory contains the refactored logic of the training pipeline, separated into specific modules to improve maintainability and code reuse.
+This directory contains the refactored implementation of the kanji model training pipeline. The notebook delegates most reusable logic to these modules in order to keep experimentation code concise and maintainable.
 
-## Table of Contents
+## Module Reference
 
 | File | Description |
 | :--- | :--- |
-| `config.py` | **Configuration**: Global constants, file paths, and default parameters (Batch Size, LR, etc.). |
-| `data_loaders.py` | **Data Loading**: Functions for creating DataLoaders (`get_dataloaders`) and splitting the dataset (`create_splits`). |
-| `dataset.py` | **Dataset Class**: `ETL9Dataset` implementation for managing binarized ETL9B images. |
-| `evaluation.py` | **Inference**: Functions for evaluation (`predict_and_evaluate`), error visualization, and Monte Carlo Dropout support. |
-| `fonts.py` | **Fonts**: Utilities for loading Japanese fonts required for visualization (Matplotlib). |
-| `image_processing.py` | **Processing**: Normalization/denormalization functions and image preprocessing (Otsu). |
-| `models.py` | **Architectures**: PyTorch model definitions. Includes `MultiHeadKanjiClassificator` (MobileNetV3 with component head). |
-| `optuna.py` | **Optimization**: `objective` function for hyperparameter search with Optuna. |
-| `train_model.py` | **Training**: Main training (`train_model`) and validation loops. |
-| `train_utils.py` | **Training Utilities**: Auxiliary classes such as `EarlyStopping` and optimizer/scheduler configuration. |
-| `transforms.py` | **Augmentation**: Transformation and Data Augmentation pipeline definitions with `torchvision` and `albumentations`. |
-| `utils.py` | **General**: General utility functions such as seed configuration (`set_seed`) and device detection. |
-| `visualization.py` | **Visualization**: `TrainingPlotter` class for training plot generation (loss and accuracy). |
+| `config.py` | Centralizes runtime flags, paths, artifact filenames, and default hyperparameters for local and Kaggle execution. |
+| `data_loaders.py` | Creates deterministic dataset splits and PyTorch dataloaders, including a reduced-class loader pair for Optuna trials. |
+| `dataset.py` | Indexes ETL9B image folders, filters valid kanji classes, and emits kanji, radical, and stroke labels for each sample. |
+| `evaluation.py` | Runs folder-based inference, computes Top-1/Top-3/Top-5 accuracy, supports optional Monte Carlo Dropout, and visualizes predictions. |
+| `fonts.py` | Loads a Japanese font into Matplotlib so kanji labels render correctly in plots. |
+| `image_processing.py` | Applies Otsu binarization, inference-time preprocessing, and tensor denormalization for visualization. |
+| `models.py` | Defines the `MultiHeadKanjiClassificator` based on a `timm` GhostNet backbone with radical and stroke auxiliary heads. |
+| `optuna.py` | Defines the Optuna objective function and the reduced training loop used during hyperparameter search. |
+| `train_model.py` | Implements the main epoch loop, curriculum gating for the kanji head, checkpointing, validation, and best-model restoration. |
+| `train_utils.py` | Provides early stopping, optimizer and scheduler setup, loss construction, and curriculum management utilities. |
+| `transforms.py` | Declares the data augmentation and validation preprocessing pipelines, including morphological operations and binarization. |
+| `utils.py` | Provides reproducibility helpers and device selection across CUDA, MPS, and CPU backends. |
+| `visualization.py` | Generates training dashboards for loss, kanji accuracy, radical accuracy, and stroke accuracy. |
 
 ## General Usage
 
-To use these modules from a notebook or script in the parent directory (`training/`), ensure the package is accessible (by default Python adds the current directory to the path):
+These modules are intended to be imported from the parent `training/` directory:
 
 ```python
 from modules.config import *
 from modules.models import build_multi_head_model
-# ...
+from modules.train_model import train_model
 ```
